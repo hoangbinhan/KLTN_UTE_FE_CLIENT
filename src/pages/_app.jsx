@@ -8,13 +8,20 @@ import Loading from "../components/other/Loading";
 import withReduxStore from "../common/withReduxStore";
 
 const App = ({ Component, pageProps, reduxStore }) => {
-  return (
-    <Provider store={reduxStore}>
-      <PersistGate loading={<Loading />} persistor={persistor}>
-        <Component {...pageProps} />
-      </PersistGate>
-    </Provider>
-  );
+    return (
+        <Provider store={reduxStore}>
+            <PersistGate loading={<Loading />} persistor={persistor}>
+                <Component {...pageProps} />
+            </PersistGate>
+        </Provider>
+    );
 };
+
+export async function getStaticProps({ Component, ctx }) {
+    const pageProps = Component.getInitialProps
+        ? await Component.getInitialProps(ctx)
+        : {};
+    return { pageProps: pageProps };
+}
 
 export default withReduxStore(App);
