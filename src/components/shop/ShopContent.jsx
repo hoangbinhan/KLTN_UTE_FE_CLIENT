@@ -11,7 +11,7 @@ function ShopContent({
 }) {
   return (
     <div className="shop-content">
-      <ShopContentHeader productPerPage={productPerPage} data={data} />
+      <ShopContentHeader />
       <ShopContentProduct
         productStyle={productStyle}
         fiveColumn={fiveColumn}

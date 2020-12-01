@@ -7,12 +7,9 @@ import { Select, Image } from "antd";
 import queryString from "query-string";
 import { useRouter } from "next/dist/client/router";
 
-function ShopSidebar() {
+function ShopSidebar({ dataCategories }) {
   const router = useRouter();
   const { Option } = Select;
-  const { listCategories } = useSelector(
-    (state) => state.home.fetchDataCategories
-  );
 
   const onChooseSubCategory = (data) => {
     if (!data || data === "all") {
@@ -49,8 +46,8 @@ function ShopSidebar() {
               </a>
             </Link>
           </li>
-          {listCategories &&
-            listCategories.map((item, index) => (
+          {dataCategories &&
+            dataCategories.map((item, index) => (
               <li
                 key={index}
                 className={classNames({
@@ -80,8 +77,8 @@ function ShopSidebar() {
             <i className="icon_document_alt" />
             All Category
           </Option>
-          {listCategories &&
-            listCategories.map((item, index) => (
+          {dataCategories &&
+            dataCategories.map((item, index) => (
               <Option key={index} value={item.categoryName}>
                 {" "}
                 <Image width={16} src={item.imageUrl} />

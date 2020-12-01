@@ -1,9 +1,9 @@
-import {
-    combineReducers
-} from 'redux'
+import { combineReducers } from "redux";
 
-import fetchDataCategories from './fetchDataCategories'
+import fetchDataCategories from "./fetchDataCategories";
+import fetchDataProducts from "./fetchDataProducts";
 
 export const home = combineReducers({
-    fetchDataCategories
+  fetchDataCategories,
+  fetchDataProducts,
 });

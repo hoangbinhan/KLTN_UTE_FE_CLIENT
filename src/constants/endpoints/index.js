@@ -1,3 +1,4 @@
 export default {
-    CATEGORIES: "api/client/categories"
+  CATEGORIES: "api/client/home/categories",
+  PRODUCTS: "api/client/home/products",
 };

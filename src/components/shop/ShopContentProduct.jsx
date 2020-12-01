@@ -1,13 +1,13 @@
-import { Row, Col, Empty, Pagination } from "antd";
-import { useSelector } from "react-redux";
-import classNames from "classnames";
-
-import Product from "../product/Product";
-import {
-  getProductsByFilter,
-  getProductsBySearch,
-} from "../../common/shopUtils";
+//libs
 import { useState, useEffect } from "react";
+import { Row, Col, Empty, Pagination } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import classNames from "classnames";
+import Product from "../product/Product";
+import queryString from "query-string";
+import { useRouter } from "next/router";
+//actions
+import { fetchDataProducts } from "../../actions/home";
 
 function ShopContentProduct({
   productResponsive,
@@ -16,30 +16,33 @@ function ShopContentProduct({
   productPerPage,
   productStyle,
 }) {
-  useEffect(() => {}, []);
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const { listProducts } = useSelector((state) => state.home.fetchDataProducts);
+  useEffect(() => {
+    dispatch(fetchDataProducts({ params: router.query }));
+  }, [dispatch, router.query]);
 
   return (
     <div className="shop-content__product">
-      {/* {!currentData ? (
+      {!listProducts ? (
         <Empty description="No products in this category" />
       ) : (
         <>
-          {currentData.length > 0 ? (
+          {listProducts.length > 0 ? (
             <>
               <Row gutter={[{ xs: 5, sm: 5, xl: 15, xxl: 30 }, 30]}>
-                {currentData
-                  .slice(offset, offset + productPerPage)
-                  .map((product, index) => (
-                    <Col
-                      key={index}
-                      className={classNames({ "five-col": fiveColumn })}
-                      {...productResponsive}
-                    >
-                      <Product data={product} productStyle={productStyle} />
-                    </Col>
-                  ))}
+                {listProducts.map((product, index) => (
+                  <Col
+                    key={index}
+                    className={classNames({ "five-col": fiveColumn })}
+                    {...productResponsive}
+                  >
+                    <Product data={product} productStyle={productStyle} />
+                  </Col>
+                ))}
               </Row>
-              {currentData.length >= productPerPage && (
+              {/* {currentData.length >= productPerPage && (
                 <Pagination
                   classNames="shop-content__product-pagination"
                   defaultCurrent={1}
@@ -49,13 +52,13 @@ function ShopContentProduct({
                   itemRender={itemRender}
                   onChange={(page, pageSize) => onChangeOffset(page, pageSize)}
                 />
-              )}
+              )} */}
             </>
           ) : (
             <Empty />
           )}
         </>
-      )} */}
+      )}
     </div>
   );
 }

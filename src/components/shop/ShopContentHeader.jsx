@@ -1,9 +1,20 @@
+//libs
 import { Select } from "antd";
+import { useRouter } from "next/router";
+import queryString from "querystring";
+
 const { Option } = Select;
 
 function ShopContentHeader() {
+  const router = useRouter();
   const handleChange = (value) => {
-    console.log("value :>> ", value);
+    let currentParam = { ...router.query };
+    if (value === "default") {
+      delete currentParam.sort;
+    } else {
+      currentParam = { ...router.query, sort: value };
+    }
+    router.push(`${router.pathname}?${queryString.stringify(currentParam)}`);
   };
   return (
     <div className="shop-content__header">
@@ -14,6 +25,7 @@ function ShopContentHeader() {
           className="shop-content__header-filter__select"
           style={{ width: 250 / 16 + "em" }}
           onChange={handleChange}
+          value={router.query.sort ? router.query.sort : "default"}
         >
           <Option value="default">Default</Option>
           <Option value="lowHigh">Price: Low to High</Option>
