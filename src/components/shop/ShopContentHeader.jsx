@@ -1,14 +1,9 @@
 import { Select } from "antd";
-import { useSelector, useDispatch } from "react-redux";
+const { Option } = Select;
 
-import { setSort } from "../../redux/actions/shopActions";
-
-function ShopContentHeader({ data, productPerPage }) {
-  const { Option } = Select;
-  const dispatch = useDispatch();
-  const shopState = useSelector((state) => state.shopReducer);
+function ShopContentHeader() {
   const handleChange = (value) => {
-    dispatch(setSort(value));
+    console.log("value :>> ", value);
   };
   return (
     <div className="shop-content__header">
@@ -21,7 +16,6 @@ function ShopContentHeader({ data, productPerPage }) {
         <p>Filter by:</p>
         <Select
           className="shop-content__header-filter__select"
-          // defaultValue={shopState.sort}
           style={{ width: 250 / 16 + "em" }}
           onChange={handleChange}
         >
