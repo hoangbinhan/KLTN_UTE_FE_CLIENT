@@ -1,10 +1,12 @@
 // libs import
-import { message } from "antd";
+import {
+    message
+} from "antd";
 
 /**
  * default http response callback error
  */
-export const defaultHttpResponseCbError = (url: string, err: any) => {
+export const defaultHttpResponseCbError = (url, err) => {
     message.error(`${err}`);
     // eslint-disable-next-line no-console
     console.log("URL：", url);
@@ -12,7 +14,7 @@ export const defaultHttpResponseCbError = (url: string, err: any) => {
     console.log("Detail：", err);
 };
 
-export const getBase64 = (file: any) => {
+export const getBase64 = (file) => {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
@@ -21,19 +23,19 @@ export const getBase64 = (file: any) => {
     });
 };
 
-export const getBase64Image = (img: any, callback: any) => {
+export const getBase64Image = (img, callback) => {
     const reader = new FileReader();
     reader.addEventListener("load", () => callback(reader.result));
     reader.readAsDataURL(img);
 };
 
-export const formatVND = (value: string, currency: string) => {
+export const formatVND = (value, currency) => {
     return `${parseFloat(value)
         .toFixed(2)
         .replace(/(\d)(?=(\d{3})+\.)/g, "$1,")} ${currency}`;
 };
 
-export const beforeUpload = (file: any) => {
+export const beforeUpload = (file) => {
     const isJpgOrPng =
         file.type === "image/jpeg" ||
         file.type === "image/png" ||

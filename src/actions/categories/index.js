@@ -1,14 +1,16 @@
 // types
-import { TYPES } from "../../../constants/actions/categories";
+import {
+    TYPES
+} from "../../constants/actions/categories";
 // others
-import { CONSTANTS } from "../../constants";
+import CONSTANTS from "../../constants";
 import request from "../../utils/request";
 
 export const fetchDataCategories = ({
-    params = {},
-    data = {},
-    cbSuccess
-} = {}) =>
+        params = {},
+        data = {},
+        cbSuccess
+    } = {}) =>
     request({
         url: CONSTANTS.ENDPOINTS.CATEGORIES,
         method: "GET",

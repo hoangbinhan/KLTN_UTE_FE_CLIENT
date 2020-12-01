@@ -1,10 +1,10 @@
-import ENDPOINT from "./endpoints";
+import ENDPOINTS from "./endpoints";
 
 const CONSTANTS = {
     PAGE_NAME: {
         HOME: "HOME"
     },
-    ENDPOINT
+    ENDPOINTS
 };
 
 export default CONSTANTS;

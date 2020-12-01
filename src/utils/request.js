@@ -1,11 +1,12 @@
-// types
-import { REQUEST_TYPE } from "../types/common";
-import { DISPATCH_TYPE } from "../configs/Redux/store";
 // others
-import { AXIOS_INSTANCE } from "../configs/enviroments";
-import { defaultHttpResponseCbError } from "../utils";
+import {
+    AXIOS_INSTANCE
+} from "../configs/enviroments";
+import {
+    defaultHttpResponseCbError
+} from "./index";
 
-const requireParam = (msg: string) => {
+const requireParam = (msg) => {
     throw Error(msg);
 };
 
@@ -19,17 +20,17 @@ const request = ({
     LOADING_ACTION,
     SUCCESS_ACTION,
     ERROR_ACTION
-}: REQUEST_TYPE) => (dispatch: DISPATCH_TYPE) => {
+}) => (dispatch) => {
     dispatch({
         type: LOADING_ACTION
     });
     return AXIOS_INSTANCE.request({
-        url,
-        method,
-        data: payload,
-        params
-    })
-        .then((res: { [key: string]: any }) => {
+            url,
+            method,
+            data: payload,
+            params
+        })
+        .then((res) => {
             dispatch({
                 type: SUCCESS_ACTION,
                 payload: res
@@ -40,10 +41,12 @@ const request = ({
                 });
             }
         })
-        .catch((error: { [key: string]: any }) => {
+        .catch((error) => {
             dispatch({
                 type: ERROR_ACTION,
-                payload: { error }
+                payload: {
+                    error
+                }
             });
             if (cbError) cbError(url, error);
         });

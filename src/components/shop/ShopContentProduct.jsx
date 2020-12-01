@@ -23,9 +23,9 @@ function ShopContentProduct({
   const [offset, setOffset] = useState(0);
   useEffect(() => {
     let filteredProduct = getProductsByFilter(
-      [...data],
-      shopState.sort,
-      shopState.subCategory
+      [...data]
+      // shopState.sort,
+      // shopState.subCategory
     );
     setCurrentData(filteredProduct);
     setOffset(0);

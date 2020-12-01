@@ -21,7 +21,7 @@ function ShopContentHeader({ data, productPerPage }) {
         <p>Filter by:</p>
         <Select
           className="shop-content__header-filter__select"
-          defaultValue={shopState.sort}
+          // defaultValue={shopState.sort}
           style={{ width: 250 / 16 + "em" }}
           onChange={handleChange}
         >
