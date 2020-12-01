@@ -6,7 +6,7 @@ import Banners from "../components/shop/Banners";
 import LayoutOne from "../components/layouts/LayoutOne";
 import ShopLayout from "../components/shop/ShopLayout";
 //actions
-import { fetchDataCategories } from "../actions/categories";
+import { fetchDataCategories } from "../actions/home";
 
 export default function Home() {
   const dispatch = useDispatch();

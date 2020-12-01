@@ -1,4 +1,4 @@
 export {
-    categories
+    home
 }
-from './categories'
+from './home'

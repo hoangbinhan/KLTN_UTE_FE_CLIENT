@@ -1,7 +1,7 @@
 //libs
 import React from "react";
 import Link from "next/link";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import classNames from "classnames";
 import { Select, Image } from "antd";
 import queryString from "query-string";
@@ -11,8 +11,9 @@ function ShopSidebar() {
   const router = useRouter();
   const { Option } = Select;
   const { listCategories } = useSelector(
-    (state) => state.categories.fetchDataCategories
+    (state) => state.home.fetchDataCategories
   );
+
   const onChooseSubCategory = (data) => {
     if (!data || data === "all") {
       const currentParam = { ...router.query };

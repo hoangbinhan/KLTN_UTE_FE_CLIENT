@@ -7,11 +7,7 @@ function ShopContentHeader() {
   };
   return (
     <div className="shop-content__header">
-      <div className="shop-content__header-showing">
-        <h5>
-          Showing 1 - {productPerPage} of {data.length} Products
-        </h5>
-      </div>
+      <div></div>
       <div className="shop-content__header-filter">
         <p>Filter by:</p>
         <Select

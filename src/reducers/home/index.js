@@ -4,6 +4,6 @@ import {
 
 import fetchDataCategories from './fetchDataCategories'
 
-export const categories = combineReducers({
+export const home = combineReducers({
     fetchDataCategories
 });

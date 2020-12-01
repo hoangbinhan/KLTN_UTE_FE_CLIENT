@@ -3,11 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-Object.defineProperty(exports, "categories", {
+Object.defineProperty(exports, "home", {
   enumerable: true,
   get: function get() {
-    return _categories.categories;
+    return _home.home;
   }
 });
 
-var _categories = require("./categories");
+var _home = require("./home");

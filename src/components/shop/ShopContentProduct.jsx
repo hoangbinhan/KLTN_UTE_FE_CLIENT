@@ -16,48 +16,11 @@ function ShopContentProduct({
   productPerPage,
   productStyle,
 }) {
-  const shopState = useSelector((state) => state.shopReducer);
-  const globalState = useSelector((state) => state.globalReducer);
-  const [currentData, setCurrentData] = useState();
-  const [page, setPage] = useState(1);
-  const [offset, setOffset] = useState(0);
-  useEffect(() => {
-    let filteredProduct = getProductsByFilter(
-      [...data]
-      // shopState.sort,
-      // shopState.subCategory
-    );
-    setCurrentData(filteredProduct);
-    setOffset(0);
-  }, [shopState, data]);
-  useEffect(() => {
-    setPage(1);
-  }, [globalState]);
-  const itemRender = (current, type, originalElement) => {
-    if (type === "prev") {
-      return (
-        <a>
-          <i className="fal fa-angle-left" />
-        </a>
-      );
-    }
-    if (type === "next") {
-      return (
-        <a>
-          <i className="fal fa-angle-right" />
-        </a>
-      );
-    }
-    return originalElement;
-  };
-  const onChangeOffset = (page, pageSize) => {
-    let offset = (page - 1) * pageSize;
-    setPage(page);
-    setOffset(offset);
-  };
+  useEffect(() => {}, []);
+
   return (
     <div className="shop-content__product">
-      {!currentData ? (
+      {/* {!currentData ? (
         <Empty description="No products in this category" />
       ) : (
         <>
@@ -92,7 +55,7 @@ function ShopContentProduct({
             <Empty />
           )}
         </>
-      )}
+      )} */}
     </div>
   );
 }
