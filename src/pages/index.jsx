@@ -27,7 +27,7 @@ export default function Home({ categories }) {
 
 export async function getStaticProps(context) {
   const res = await axios.get(
-    `http://localhost:3001/api/client/home/categories`
+    `http://localhost:3003/api/client/home/categories`
   );
   const categories = await res.data.data.payload;
   if (!categories) {

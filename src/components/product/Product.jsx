@@ -20,43 +20,24 @@ function Product({ data, productStyle }) {
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
-  const globalState = useSelector((state) => state.globalReducer);
-  const cartState = useSelector((state) => state.cartReducer);
-  const wishlistState = useSelector((state) => state.wishlistReducer);
-  const productInWishlist = checkProductInWishlist(wishlistState, data.id);
-  const avaiableQuantity = checkAvaiableQuantityToAdd(cartState, data);
-  const { currency, locales } = globalState.currency;
-  useEffect(() => {
-    setImageLoading(true);
-  }, [globalState.category]);
+  // const globalState = useSelector((state) => state.globalReducer);
+  // const cartState = useSelector((state) => state.cartReducer);
+  // const avaiableQuantity = checkAvaiableQuantityToAdd(cartState, data);
+  // const { currency, locales } = globalState.currency;
+  // useEffect(() => {
+  //   setImageLoading(true);
+  // }, [globalState.category]);
   const renderProductType = () => {
-    if (data.discount && !data.isNew) {
+    if (data.discountPrice) {
       return <p className="product-type -sale">Sale</p>;
-    } else if (data.isNew && !data.discount) {
-      return <p className="product-type -new">New</p>;
-    } else if (data.isNew && data.discount) {
-      return <p className="product-type -new">New</p>;
+    } else if (data.quantity <= 0) {
+      return <p className="product-type -new">Sold out</p>;
     } else {
       return null;
     }
   };
-  console.log(avaiableQuantity);
-  const onAddToCart = (data) => {
-    if (avaiableQuantity === 0) {
-      return;
-    }
-    dispatch(addToCart(data, 1, "none", "none"));
-    message.success("Product added to cart successfully");
-  };
-  const onAddToWishlist = (data) => {
-    if (productInWishlist) {
-      dispatch(removeFromWishlist(data.id));
-      return message.error("Product removed from wishlist");
-    } else {
-      dispatch(addToWishlist(data));
-      return message.success("Product added to wishlist successfully");
-    }
-  };
+  const onAddToCart = (data) => {};
+  const onAddToWishlist = (data) => {};
   const renderStyleClass = () => {
     const avaialeStyles = ["one", "two", "three"];
     if (avaialeStyles.includes(productStyle)) {
@@ -139,7 +120,7 @@ function Product({ data, productStyle }) {
           ) : null}
           {!productStyle || productStyle === "one" ? (
             <>
-              <Tooltip
+              {/* <Tooltip
                 placement="left"
                 title={
                   productInWishlist ? "Remove from wishlist" : "Add to wishlist"
@@ -155,7 +136,7 @@ function Product({ data, productStyle }) {
                 >
                   <i className="icon_heart_alt" />
                 </Button>
-              </Tooltip>
+              </Tooltip> */}
 
               <Button onClick={showModal} className="product-qv">
                 Quick view
@@ -177,13 +158,13 @@ function Product({ data, productStyle }) {
           <div className="product-content__footer">
             <div className="product-content__footer-price">
               <h5 className="product-price">
-                {data.discount
+                {/* {data.discount
                   ? formatCurrency(
                       data.price - data.discount,
                       locales,
                       currency
                     )
-                  : formatCurrency(data.price, locales, currency)}
+                  : formatCurrency(data.price, locales, currency)} */}
               </h5>
               {data.discount && (
                 <span>{formatCurrency(data.price, locales, currency)}</span>
@@ -192,7 +173,7 @@ function Product({ data, productStyle }) {
             {!productStyle || productStyle === "one" ? (
               <Tooltip title="Add to cart">
                 <Button
-                  disabled={avaiableQuantity === 0}
+                  // disabled={avaiableQuantity === 0}
                   className="product-atc"
                   type="text"
                   shape="circle"

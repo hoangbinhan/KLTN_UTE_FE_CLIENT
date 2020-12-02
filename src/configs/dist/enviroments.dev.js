@@ -10,7 +10,7 @@ var _axios = _interopRequireDefault(require("axios"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 // TODO: Add environments
-var baseUrl = "http://localhost:3001";
+var baseUrl = "http://localhost:3003";
 exports.baseUrl = baseUrl;
 
 var AXIOS_INSTANCE = _axios["default"].create({
