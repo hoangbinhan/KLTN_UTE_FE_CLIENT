@@ -19,7 +19,7 @@ export default function (state = initialState, { type, payload }) {
     case TYPES.FETCH_DATA_PRODUCTS_SUCCESS:
       return {
         ...state,
-        listProducts: payload.data.data.payload,
+        listProducts: payload.data,
         isLoading: false,
         isError: false,
         error: {},

@@ -22,23 +22,23 @@ function ShopContentProduct({
   useEffect(() => {
     dispatch(fetchDataProducts({ params: router.query }));
   }, [dispatch, router.query]);
-
+  console.log("listProducts", listProducts);
   return (
     <div className="shop-content__product">
-      {!listProducts ? (
+      {!listProducts.data ? (
         <Empty description="No products in this category" />
       ) : (
         <>
-          {listProducts.length > 0 ? (
+          {listProducts.data?.length > 0 ? (
             <>
               <Row gutter={[{ xs: 5, sm: 5, xl: 15, xxl: 30 }, 30]}>
-                {listProducts.map((product, index) => (
+                {listProducts.data?.map((product) => (
                   <Col
-                    key={index}
+                    key={product._id}
                     className={classNames({ "five-col": fiveColumn })}
                     {...productResponsive}
                   >
-                    <Product data={product} productStyle={productStyle} />
+                    <Product product={product} productStyle={productStyle} />
                   </Col>
                 ))}
               </Row>

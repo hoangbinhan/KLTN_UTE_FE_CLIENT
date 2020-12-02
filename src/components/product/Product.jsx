@@ -15,8 +15,9 @@ import {
   removeFromWishlist,
 } from "../../redux/actions/wishlistActions";
 import ShopQuickView from "../shop/ShopQuickView";
+import ColumnGroup from "antd/lib/table/ColumnGroup";
 
-function Product({ data, productStyle }) {
+function Product({ product, productStyle }) {
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
@@ -28,9 +29,9 @@ function Product({ data, productStyle }) {
   //   setImageLoading(true);
   // }, [globalState.category]);
   const renderProductType = () => {
-    if (data.discountPrice) {
+    if (product.discountPrice) {
       return <p className="product-type -sale">Sale</p>;
-    } else if (data.quantity <= 0) {
+    } else if (product.quantity <= 0) {
       return <p className="product-type -new">Sold out</p>;
     } else {
       return null;
@@ -59,24 +60,39 @@ function Product({ data, productStyle }) {
   const handleImageLoaded = () => {
     setImageLoading(false);
   };
-  return data ? (
+  return product ? (
     <>
-      <div className={`product ${renderStyleClass()}`}>
+      <div className={`product -style-one`}>
         <div className="product-image">
           <Link
             href={process.env.PUBLIC_URL + `/product/[slug]`}
-            as={process.env.PUBLIC_URL + `/product/${data.slug}`}
+            as={process.env.PUBLIC_URL + `/product/${product._id}`}
           >
             <a className={classNames({ loading: imageLoading })}>
-              {data.thumbImage &&
-                data.thumbImage.map((item, index) => (
-                  <img
-                    onLoad={handleImageLoaded}
-                    key={index}
-                    src={item}
-                    alt="Product image"
-                  />
-                ))}
+              {product.image && (
+                <>
+                  {product.image[0]?.url ? (
+                    <img
+                      onLoad={handleImageLoaded}
+                      src={product.image[0]?.url}
+                      alt="Product image"
+                      style={{ width: "100%" }}
+                    />
+                  ) : (
+                    <div className="non-image-one-product"></div>
+                  )}
+                  {product.image[1]?.url ? (
+                    <img
+                      onLoad={handleImageLoaded}
+                      src={product.image[1]?.url}
+                      alt="Product image"
+                      style={{ width: "100%" }}
+                    />
+                  ) : (
+                    <div className="non-image-two-product"></div>
+                  )}
+                </>
+              )}
             </a>
           </Link>
           {imageLoading && (
@@ -85,76 +101,23 @@ function Product({ data, productStyle }) {
             </div>
           )}
           {renderProductType()}
-          {productStyle === "two" ? (
-            <div className="product-button-group">
-              <Tooltip title="Quick view">
-                <Button onClick={showModal} type="text">
-                  <i className="icon_search" />
-                </Button>
-              </Tooltip>
-              <Tooltip
-                title={
-                  productInWishlist ? "Remove from wishlist" : "Add to wishlist"
-                }
-              >
-                <Button
-                  className={`product-atw ${classNames({
-                    active: productInWishlist,
-                  })}`}
-                  type="text"
-                  onClick={() => onAddToWishlist(data)}
-                >
-                  <i className="icon_heart_alt" />
-                </Button>
-              </Tooltip>
-              <Tooltip title="Add to cart">
-                <Button
-                  disabled={avaiableQuantity === 0}
-                  type="text"
-                  onClick={() => onAddToCart(data)}
-                >
-                  <i className="icon_bag_alt" />
-                </Button>
-              </Tooltip>
-            </div>
-          ) : null}
           {!productStyle || productStyle === "one" ? (
-            <>
-              {/* <Tooltip
-                placement="left"
-                title={
-                  productInWishlist ? "Remove from wishlist" : "Add to wishlist"
-                }
-              >
-                <Button
-                  className={`product-atw ${classNames({
-                    active: productInWishlist,
-                  })}`}
-                  type="text"
-                  shape="circle"
-                  onClick={() => onAddToWishlist(data)}
-                >
-                  <i className="icon_heart_alt" />
-                </Button>
-              </Tooltip> */}
-
-              <Button onClick={showModal} className="product-qv">
-                Quick view
-              </Button>
-            </>
+            <Button onClick={showModal} className="product-qv">
+              Quick view
+            </Button>
           ) : null}
         </div>
         <div className="product-content">
           <Link
             href={process.env.PUBLIC_URL + `/product/[slug]`}
-            as={process.env.PUBLIC_URL + `/product/${data.slug}`}
+            as={process.env.PUBLIC_URL + `/product/${product._id}`}
           >
-            <a className="product-name">{data.name}</a>
+            <a className="product-name">{product.productName}</a>
           </Link>
-          <div className="product-rate">
-            <Rate defaultValue={data.rate} disabled />
+          {/* <div className="product-rate">
+            <Rate defaultValue={product.rate} disabled />
             <span className="product-rate-quantity">(06)</span>
-          </div>
+          </div> */}
           <div className="product-content__footer">
             <div className="product-content__footer-price">
               <h5 className="product-price">
@@ -166,9 +129,9 @@ function Product({ data, productStyle }) {
                     )
                   : formatCurrency(data.price, locales, currency)} */}
               </h5>
-              {data.discount && (
+              {/* {data.discount && (
                 <span>{formatCurrency(data.price, locales, currency)}</span>
-              )}
+              )} */}
             </div>
             {!productStyle || productStyle === "one" ? (
               <Tooltip title="Add to cart">
@@ -177,51 +140,13 @@ function Product({ data, productStyle }) {
                   className="product-atc"
                   type="text"
                   shape="circle"
-                  onClick={() => onAddToCart(data)}
+                  onClick={() => onAddToCart(product)}
                 >
                   <i className="icon_bag_alt" />
                 </Button>
               </Tooltip>
             ) : null}
           </div>
-          {productStyle === "three" ? (
-            <div className="product-button-group">
-              <div className="product-button-group__wrapper">
-                <Tooltip placement="top" title="Quick view">
-                  <Button onClick={showModal} shape="circle">
-                    <i className="icon_search" />
-                  </Button>
-                </Tooltip>
-                <Tooltip
-                  placement="top"
-                  title={
-                    productInWishlist
-                      ? "Remove from wishlist"
-                      : "Add to wishlist"
-                  }
-                >
-                  <Button
-                    shape="circle"
-                    className={`product-atw ${classNames({
-                      active: productInWishlist,
-                    })}`}
-                    onClick={() => onAddToWishlist(data)}
-                  >
-                    <i className="icon_heart_alt" />
-                  </Button>
-                </Tooltip>
-                <Tooltip placement="top" title="Add to cart">
-                  <Button
-                    disabled={avaiableQuantity === 0}
-                    shape="circle"
-                    onClick={() => onAddToCart(data)}
-                  >
-                    <i className="icon_bag_alt" />
-                  </Button>
-                </Tooltip>
-              </div>
-            </div>
-          ) : null}
         </div>
       </div>
       <Modal
@@ -231,7 +156,7 @@ function Product({ data, productStyle }) {
         visible={visible}
         width={850}
       >
-        <ShopQuickView setModalVisible={setVisible} data={data} />
+        <ShopQuickView setModalVisible={setVisible} data={product} />
       </Modal>
     </>
   ) : (
