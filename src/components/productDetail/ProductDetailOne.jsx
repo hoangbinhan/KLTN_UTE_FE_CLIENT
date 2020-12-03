@@ -14,11 +14,11 @@ function ProductDetailLayoutOne({ data }) {
           <Breadcrumb className="product-detail-breadcrumb" separator=">">
             <Breadcrumb.Item>Home</Breadcrumb.Item>
             <Breadcrumb.Item>Product</Breadcrumb.Item>
-            <Breadcrumb.Item>{data.name}</Breadcrumb.Item>
+            <Breadcrumb.Item>{data.productName}</Breadcrumb.Item>
           </Breadcrumb>
           <Row gutter={70}>
             <Col span={24} md={12}>
-              <ProductDetailImageOne imageData={data.images} />
+              <ProductDetailImageOne imageData={data.image} />
             </Col>
             <Col span={24} md={12}>
               <ProductDetailContentOne data={data} quantityControllerNoRound />

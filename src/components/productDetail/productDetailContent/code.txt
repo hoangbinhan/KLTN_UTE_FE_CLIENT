@@ -1,0 +1,51 @@
+{showCountdown && (
+        <>
+          <div className="product-detail-content-one-countdown">
+            <h3>Hurry Up ! Sales end in :</h3>
+            <div className="product-detail-content-one-countdown__items">
+              <Countdown
+                date={Date.now() + 100000000}
+                renderer={({ days, hours, minutes, seconds, completed }) => (
+                  <>
+                    <div className="product-detail-content-one-countdown__item">
+                      <div>{zeroPad(days)}</div>
+                      <span>days</span>
+                    </div>
+                    :
+                    <div className="product-detail-content-one-countdown__item">
+                      <div>{zeroPad(hours)}</div>
+                      <span>hours</span>
+                    </div>
+                    :
+                    <div className="product-detail-content-one-countdown__item">
+                      <div>{zeroPad(minutes)}</div>
+                      <span>mins</span>
+                    </div>
+                    :
+                    <div className="product-detail-content-one-countdown__item">
+                      <div>{zeroPad(seconds)}</div>
+                      <span>secs</span>
+                    </div>
+                  </>
+                )}
+              />
+            </div>
+            <div className="product-detail-content-one-countdown__sold">
+              <Progress percent={50} showInfo={false} />
+              <div className="sold-data">
+                <h5>
+                  Already Sold:
+                  <span>20</span>
+                </h5>
+                <h5>
+                  Total:
+                  <span>20</span>
+                </h5>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+
+      {!hideGuaranteed && <ProductGuaranteed />}

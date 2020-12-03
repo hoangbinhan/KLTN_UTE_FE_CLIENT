@@ -64,10 +64,7 @@ function Product({ product, productStyle }) {
     <>
       <div className={`product -style-one`}>
         <div className="product-image">
-          <Link
-            href={process.env.PUBLIC_URL + `/product/[slug]`}
-            as={process.env.PUBLIC_URL + `/product/${product._id}`}
-          >
+          <Link href={`/product/[slug]`} as={`/product/${product._id}`}>
             <a className={classNames({ loading: imageLoading })}>
               {product.image && (
                 <>
@@ -114,29 +111,19 @@ function Product({ product, productStyle }) {
           >
             <a className="product-name">{product.productName}</a>
           </Link>
-          {/* <div className="product-rate">
-            <Rate defaultValue={product.rate} disabled />
-            <span className="product-rate-quantity">(06)</span>
-          </div> */}
+          <div className="product-rate">
+            <Rate defaultValue={5} disabled />
+            <span className="product-rate-quantity">{`(${product.quantity})`}</span>
+          </div>
           <div className="product-content__footer">
             <div className="product-content__footer-price">
-              <h5 className="product-price">
-                {/* {data.discount
-                  ? formatCurrency(
-                      data.price - data.discount,
-                      locales,
-                      currency
-                    )
-                  : formatCurrency(data.price, locales, currency)} */}
-              </h5>
-              {/* {data.discount && (
-                <span>{formatCurrency(data.price, locales, currency)}</span>
-              )} */}
+              <h5 className="product-price">{product.price}</h5>
+              {product.discountPrice && <span>{product.discountPrice}</span>}
             </div>
             {!productStyle || productStyle === "one" ? (
               <Tooltip title="Add to cart">
                 <Button
-                  // disabled={avaiableQuantity === 0}
+                  disabled={product.quantity === 0}
                   className="product-atc"
                   type="text"
                   shape="circle"

@@ -53,9 +53,9 @@ function ShopQuickView({ data, setModalVisible }) {
                 {...slider1Settings}
               >
                 {data &&
-                  data.images.map((img, index) => (
+                  data.image?.map((img, index) => (
                     <div key={index} className="slider-item">
-                      <img src={img} alt="Product image" />
+                      <img src={img.url} alt="Product image" />
                     </div>
                   ))}
               </Slider>
@@ -67,9 +67,9 @@ function ShopQuickView({ data, setModalVisible }) {
                 {...slider2Settings}
               >
                 {data &&
-                  data.images.map((img, index) => (
+                  data.image?.map((img, index) => (
                     <div key={index} className="slider-item">
-                      <img src={img} alt="Product image" />
+                      <img src={img.url} alt="Product image" />
                     </div>
                   ))}
               </Slider>

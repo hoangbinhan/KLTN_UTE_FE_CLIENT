@@ -1,21 +1,24 @@
 import { useRouter } from "next/router";
-
 import LayoutOne from "../../components/layouts/LayoutOne";
-import { capitalizeFirstLetter } from "../../common/utils";
-import { getProductsBySlug } from "../../common/shopUtils";
-import productData from "../../data/product.json";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { fetchDetailProduct } from "../../actions/product";
 import ProductDetailOne from "../../components/productDetail/ProductDetailOne";
 
 export default function pid() {
   const router = useRouter();
+  const dispatch = useDispatch();
   const { slug } = router.query;
-  const foundProduct = getProductsBySlug(productData, slug);
+  const { detailProduct } = useSelector(
+    (state) => state.product.fetchDetailProduct
+  );
+  useEffect(() => {
+    dispatch(fetchDetailProduct({ params: { id: slug } }));
+  }, [dispatch, slug]);
+  console.log("detailProduct", detailProduct);
   return (
-    <LayoutOne
-      title={foundProduct && capitalizeFirstLetter(foundProduct.name)}
-      clearSpaceTop
-    >
-      {foundProduct && <ProductDetailOne data={foundProduct} />}
+    <LayoutOne title="product" clearSpaceTop>
+      <ProductDetailOne data={detailProduct} />
     </LayoutOne>
   );
 }

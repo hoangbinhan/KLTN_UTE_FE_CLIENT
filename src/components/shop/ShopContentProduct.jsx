@@ -22,7 +22,6 @@ function ShopContentProduct({
   useEffect(() => {
     dispatch(fetchDataProducts({ params: router.query }));
   }, [dispatch, router.query]);
-  console.log("listProducts", listProducts);
   return (
     <div className="shop-content__product">
       {!listProducts.data ? (
