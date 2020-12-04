@@ -34,9 +34,9 @@ function ProductDetailContentOne({
         <h5>{data.price}</h5>
         {data.discountPrice && <span>{data.discountPrice}</span>}
       </div>
-      <p className="product-detail-content-one-description">
-        {Parser(data.description)}
-      </p>
+      <div className="product-detail-content-one-description">
+        {Parser(`${data.description}`)}
+      </div>
       <div className="product-detail-content-one-actions">
         <QuantitySelector
           noRound={quantityControllerNoRound}

@@ -52,19 +52,6 @@ function Menu({ containerType }) {
               </Button>
               <div
                 className="menu-function-item"
-                onClick={() => setWishlistSidebarOpen(true)}
-              >
-                <img
-                  src={
-                    process.env.PUBLIC_URL +
-                    "/assets/images/header/menu-wishlist.png"
-                  }
-                  alt=""
-                />
-                {/* <span>{wishlistState.length}</span> */}
-              </div>
-              <div
-                className="menu-function-item"
                 onClick={() => setCartSidebarOpen(true)}
               >
                 <img

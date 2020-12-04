@@ -15,10 +15,9 @@ export default function pid() {
   useEffect(() => {
     dispatch(fetchDetailProduct({ params: { id: slug } }));
   }, [dispatch, slug]);
-  console.log("detailProduct", detailProduct);
   return (
     <LayoutOne title="product" clearSpaceTop>
-      <ProductDetailOne data={detailProduct} />
+      {detailProduct.status && <ProductDetailOne data={detailProduct} />}
     </LayoutOne>
   );
 }
