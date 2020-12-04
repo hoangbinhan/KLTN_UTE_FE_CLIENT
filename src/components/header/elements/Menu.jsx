@@ -46,7 +46,7 @@ function Menu({ containerType }) {
             />
             <div className="menu-functions">
               <Button>
-                <Link href="#">
+                <Link href="/login">
                   <a>Join now</a>
                 </Link>
               </Button>
