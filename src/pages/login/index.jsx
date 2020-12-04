@@ -1,6 +1,7 @@
 import React from "react";
 import LayoutOne from "../../components/layouts/LayoutOne";
 import { Form, Input, Button, Checkbox } from "antd";
+import { GoogleLogin } from "react-google-login";
 
 const layout = {
   labelCol: { span: 8 },
@@ -18,6 +19,11 @@ const loginPage = (props) => {
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
+
+  const responseGoogle = (response) => {
+    console.log(response);
+  };
+
   return (
     <LayoutOne title="Login">
       <Form
@@ -53,6 +59,15 @@ const loginPage = (props) => {
           </Button>
           <a href="#">Forgot password</a>
           <a href="#">Register</a>
+        </Form.Item>
+        <Form.Item>
+          <GoogleLogin
+            clientId="162663854679-5dqrk7lvcl6dlh81v1iqou9nvu53b761.apps.googleusercontent.com"
+            buttonText="Login"
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
+            cookiePolicy={"single_host_origin"}
+          />
         </Form.Item>
       </Form>
     </LayoutOne>
