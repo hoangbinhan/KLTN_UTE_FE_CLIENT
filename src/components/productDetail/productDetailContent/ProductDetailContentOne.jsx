@@ -1,25 +1,18 @@
 import React, { useState } from "react";
-import { Rate, Button, Radio, Progress, message } from "antd";
+import { Rate, Button } from "antd";
 import Parser from "html-react-parser";
-import Countdown, { zeroPad } from "react-countdown";
 import { useSelector, useDispatch } from "react-redux";
 import classNames from "classnames";
-
-import { formatCurrency } from "../../../common/utils";
-import { addToCart } from "../../../redux/actions/cartActions";
-import { checkAvaiableQuantityToAdd } from "../../../common/shopUtils";
 import QuantitySelector from "../../controls/QuantitySelector";
-import ProductGuaranteed from "../elements/ProductGuaranteed";
-import { stringify } from "uuid";
 
 function ProductDetailContentOne({
   data,
   onAddedToCart,
-  hideGuaranteed,
   quantityControllerNoRound,
-  showCountdown,
 }) {
-  const onAddProductToCart = (data) => {};
+  const onAddProductToCart = (data, quantity) => {
+    onAddedToCart(data, quantity);
+  };
   const [quantity, setQuantity] = useState();
   return (
     <div className="product-detail-content-one">
@@ -43,13 +36,13 @@ function ProductDetailContentOne({
           defaultValue={1}
           onChange={(val) => setQuantity(val)}
           size="big"
-          // max={checkAvaiableQuantityToAdd(cartState, data)}
+          max={data.quantity}
         />
         <Button
-          onClick={() => onAddProductToCart(data)}
+          onClick={() => onAddProductToCart(data, quantity)}
           disabled={data.quantity === 0}
           className={`product-detail-content-one-atc ${classNames({
-            disabled: data.avaiableQuantity === 0,
+            disabled: data.quantity <= 0,
           })}`}
           type="link"
           danger

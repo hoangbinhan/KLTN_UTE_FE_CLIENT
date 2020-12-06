@@ -1,6 +1,6 @@
 import React from "react";
 
-import Menu from "./elements/Menu";
+import MenuComponent from "./elements/Menu";
 import TopNav from "./elements/TopNav";
 
 function Header({ containerType, headerStyle }) {
@@ -15,7 +15,7 @@ function Header({ containerType, headerStyle }) {
   return (
     <div className={`header-one ${renderStyleClass(headerStyle)}`}>
       <TopNav containerType={containerType} />
-      <Menu containerType={containerType} />
+      <MenuComponent containerType={containerType} />
     </div>
   );
 }

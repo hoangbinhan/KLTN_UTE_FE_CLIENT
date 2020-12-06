@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import LayoutOne from "../../components/layouts/LayoutOne";
-import { Form, Input, Button, Checkbox } from "antd";
+import { Form, Input, Button, Checkbox, message } from "antd";
 import { GoogleLogin } from "react-google-login";
+import Axios from "axios";
+import { useRouter } from "next/router";
+import { baseUrl } from "../../configs/enviroments";
+import Cookie from "js-cookie";
 
 const layout = {
   labelCol: { span: 8 },
@@ -11,9 +15,32 @@ const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
 
-const loginPage = (props) => {
+const loginPage = () => {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
   const onFinish = (values) => {
-    console.log("Success:", values);
+    setIsLoading(true);
+    Axios({
+      method: "post",
+      url: `${baseUrl}/api/client/user/login`,
+      data: values,
+    })
+      .then(async (req) => {
+        if (req) {
+          setIsLoading(false);
+          const { token, refresh_token } = req.data.token;
+          Cookie.set("token", token);
+          Cookie.set("refresh_token", refresh_token);
+          router.push("/");
+        } else {
+          message.error("Access token is null!");
+          setIsLoading(false);
+        }
+      })
+      .catch((err) => {
+        message.error("Login fail");
+        setIsLoading(false);
+      });
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -34,9 +61,9 @@ const loginPage = (props) => {
         onFinishFailed={onFinishFailed}
       >
         <Form.Item
-          label="Username"
-          name="username"
-          rules={[{ required: true, message: "Please input your username!" }]}
+          label="Email"
+          name="email"
+          rules={[{ required: true, message: "Please input your email!" }]}
         >
           <Input />
         </Form.Item>
@@ -54,7 +81,7 @@ const loginPage = (props) => {
         </Form.Item>
 
         <Form.Item {...tailLayout}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={isLoading}>
             LOGIN
           </Button>
           <a href="#">Forgot password</a>

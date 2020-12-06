@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Link from "next/link";
-import { Button, Drawer } from "antd";
+import { Button, Drawer, Avatar, Dropdown, Menu } from "antd";
 import { useSelector, useDispatch } from "react-redux";
-import { CloseOutlined } from "@ant-design/icons";
-
+import {
+  CloseOutlined,
+  UserOutlined,
+  SettingOutlined,
+  LogoutOutlined,
+  ExceptionOutlined,
+} from "@ant-design/icons";
 import productsData from "../../../data/product.json";
 import CartSidebar from "../../cart/CartSidebar";
 import WishlistSidebar from "../../wishlist/WishlistSidebar";
@@ -11,13 +16,56 @@ import MenuSidebar from "./MenuSidebar";
 import SearchBar from "./SearchBar";
 import { getTotalProductInCart } from "../../../common/shopUtils";
 import Container from "../../other/Container";
+import Cookie from "js-cookie";
+import { UserContext } from "../../../context/UserContext";
+import { useRouter } from "next/router";
 
-function Menu({ containerType }) {
+function MenuComponent({ containerType }) {
+  const router = useRouter();
+  const infoToken = useContext(UserContext);
   const cartState = useSelector((state) => state.cartReducer);
   const wishlistState = useSelector((state) => state.wishlistReducer);
   const [cartSidebarOpen, setCartSidebarOpen] = useState(false);
   const [menuSidebarOpen, setMenuSidebarOpen] = useState(false);
   const [wishlistSidebarOpen, setWishlistSidebarOpen] = useState(false);
+
+  const onLogout = async () => {
+    await Cookie.remove("refresh_token");
+    await Cookie.remove("token");
+    await router.push("/");
+  };
+
+  const handleClickCart = () => {
+    if (infoToken?.email) {
+      setCartSidebarOpen(true);
+    } else {
+      router.push("/login");
+    }
+  };
+
+  const contentMenu = (
+    <Menu>
+      <Menu.Item>
+        <div className="item-user-control">
+          <ExceptionOutlined style={{ marginRight: ".3rem" }} />
+          Infomation
+        </div>
+      </Menu.Item>
+      <Menu.Item>
+        <div className="item-user-control">
+          <SettingOutlined style={{ marginRight: ".3rem" }} />
+          Change Password
+        </div>
+      </Menu.Item>
+      <Menu.Item>
+        <div className="item-user-control" onClick={onLogout}>
+          <LogoutOutlined style={{ marginRight: ".3rem" }} />
+          Logout
+        </div>
+      </Menu.Item>
+    </Menu>
+  );
+
   return (
     <>
       <div className="menu">
@@ -45,15 +93,22 @@ function Menu({ containerType }) {
               placeholder="What are you looking for ?"
             />
             <div className="menu-functions">
-              <Button>
-                <Link href="/login">
-                  <a>Join now</a>
-                </Link>
-              </Button>
-              <div
-                className="menu-function-item"
-                onClick={() => setCartSidebarOpen(true)}
-              >
+              {infoToken?.email ? (
+                <Dropdown overlay={contentMenu}>
+                  <div className="user-control">
+                    <Avatar size={38} icon={<UserOutlined />} />
+                    <span className="user-control-name">{infoToken.name}</span>
+                  </div>
+                </Dropdown>
+              ) : (
+                <Button>
+                  <Link href="/login">
+                    <a>Join now</a>
+                  </Link>
+                </Button>
+              )}
+
+              <div className="menu-function-item" onClick={handleClickCart}>
                 <img
                   src={
                     process.env.PUBLIC_URL +
@@ -124,4 +179,4 @@ function Menu({ containerType }) {
   );
 }
 
-export default React.memo(Menu);
+export default React.memo(MenuComponent);

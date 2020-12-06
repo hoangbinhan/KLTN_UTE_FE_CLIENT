@@ -202,3 +202,25 @@
     }
   }
 }
+
+.user-control {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: auto;
+  cursor: pointer;
+  &-name {
+    margin: 0 1rem;
+    color: white;
+  }
+}
+.ant-popover-inner-content {
+  .item-user-control {
+    padding: 0.5rem 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    &:hover {
+      background-color: #f3f3f3;
+    }
+  }
+}

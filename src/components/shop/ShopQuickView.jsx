@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Slider from "react-slick";
-import { Row, Col } from "antd";
-
+import { Row, Col, message } from "antd";
+import { UserContext } from "../../context/UserContext";
+import { useRouter } from "next/router";
 import ProductDetailContentOne from "../productDetail/productDetailContent/ProductDetailContentOne";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../actions/user";
 
 function ShopQuickView({ data, setModalVisible }) {
+  const dispatch = useDispatch();
+  const infoToken = useContext(UserContext);
+  const router = useRouter();
   const slider1Settings = {
     arrows: false,
   };
@@ -38,8 +44,23 @@ function ShopQuickView({ data, setModalVisible }) {
   };
   const [nav1, setNav1] = useState();
   const [nav2, setNav2] = useState();
-  const onAddedToCart = () => {
-    setModalVisible(false);
+  const onAddedToCart = (data, quantity) => {
+    if (infoToken?.email) {
+      dispatch(
+        addToCart({
+          data: { email: infoToken?.email, product: data._id, quantity },
+          cbSuccess: () => {
+            message.success("Product added to cart successfully");
+            setModalVisible(false);
+          },
+          cbError: () => {
+            message.error("Something is error");
+          },
+        })
+      );
+    } else {
+      router.push("/login");
+    }
   };
   return (
     <div className="shop-qv">
