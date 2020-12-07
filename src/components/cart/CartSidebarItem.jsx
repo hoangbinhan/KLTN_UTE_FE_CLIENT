@@ -41,10 +41,7 @@ function CartSidebarItem({ data }) {
           <img src={data.thumbImage[0]} alt="Product image" />
         </div>
         <div className="cart-sidebar-item__content">
-          <Link
-            href={process.env.PUBLIC_URL + `/product/[slug]`}
-            as={process.env.PUBLIC_URL + `/product/${data.slug}`}
-          >
+          <Link href={`/product/[slug]`} as={`/product/${data.slug}`}>
             <a>{data.name}</a>
           </Link>
           <h5>

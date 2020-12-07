@@ -84,7 +84,7 @@ function MenuComponent({ containerType }) {
               <div></div>
             </a>
             <div className="menu-logo">
-              <Link href={process.env.PUBLIC_URL + "/"}>
+              <Link href="/">
                 <a style={{ color: "white", fontSize: "2rem" }}>DA STORE</a>
               </Link>
             </div>
@@ -143,6 +143,8 @@ function MenuComponent({ containerType }) {
       >
         <WishlistSidebar />
       </Drawer>
+
+      {/* Cart */}
       <Drawer
         placement="right"
         title={`Shopping cart (${getTotalProductInCart(cartState)})`}
@@ -159,6 +161,7 @@ function MenuComponent({ containerType }) {
       >
         <CartSidebar />
       </Drawer>
+
       <Drawer
         placement="right"
         closable={true}

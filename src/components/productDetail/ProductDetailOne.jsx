@@ -1,15 +1,37 @@
-import { Row, Col, Breadcrumb } from "antd";
-import React from "react";
-
+import { Row, Col, Breadcrumb, message } from "antd";
+import React, { useContext } from "react";
 import Container from "../other/Container";
 import ProductDetailContentOne from "./productDetailContent/ProductDetailContentOne";
 import ProductDetailTabOne from "./productDetailTab/ProductDetailTabOne";
 import ProductDetailImageOne from "./productDetailImage/ProductDetailImageOne";
+import { UserContext } from "../../context/UserContext";
+import { useRouter } from "next/router";
+import { addToCart } from "../../actions/user";
+import { useDispatch } from "react-redux";
 
 function ProductDetailLayoutOne({ data }) {
+  const router = useRouter();
+  const infoToken = useContext(UserContext);
+  const dispatch = useDispatch();
+
   const onAddedToCart = (data, quantity) => {
-    console.log("data", data);
-    console.log("quantity", quantity);
+    if (infoToken?.email) {
+      const payload = {
+        email: infoToken?.email,
+        product: data._id,
+        quantity: quantity,
+      };
+      dispatch(
+        addToCart({
+          data: payload,
+          cbSuccess: () =>
+            message.success("Product added to cart successfully"),
+          cbError: () => message.error("Product added to cart fail"),
+        })
+      );
+    } else {
+      router.push("/login");
+    }
   };
   return (
     <div className="product-detail-one">

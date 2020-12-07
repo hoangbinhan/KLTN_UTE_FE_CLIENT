@@ -1,6 +1,6 @@
 //libs
 import { Select } from "antd";
-import { useRouter } from "next/router";
+import { useRouter } from "next/dist/client/router";
 import queryString from "querystring";
 
 const { Option } = Select;
@@ -14,7 +14,11 @@ function ShopContentHeader() {
     } else {
       currentParam = { ...router.query, sort: value };
     }
-    router.push(`${router.pathname}?${queryString.stringify(currentParam)}`);
+    router.push(
+      `${router.pathname}?${queryString.stringify(currentParam)}`,
+      undefined,
+      { shallow: true }
+    );
   };
   return (
     <div className="shop-content__header">

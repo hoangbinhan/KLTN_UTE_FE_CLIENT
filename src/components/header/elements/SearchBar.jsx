@@ -2,9 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Select, Button, AutoComplete } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-
-import { SHOP } from "../../../common/defines";
-import { getProductsByCategory } from "../../../common/shopUtils";
 import {
   setGlobalCategory,
   setGlobalSearch,

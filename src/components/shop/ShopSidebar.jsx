@@ -1,25 +1,33 @@
 //libs
 import React from "react";
 import Link from "next/link";
-import { useSelector } from "react-redux";
 import classNames from "classnames";
 import { Select, Image } from "antd";
 import queryString from "query-string";
-import { useRouter } from "next/dist/client/router";
+import { useRouter } from "next/router";
 
 function ShopSidebar({ dataCategories }) {
   const router = useRouter();
   const { Option } = Select;
 
   const onChooseSubCategory = (data) => {
+    console.log(data);
     if (!data || data === "all") {
       const currentParam = { ...router.query };
       delete currentParam.category;
-      router.push(`${router.pathname}?${queryString.stringify(currentParam)}`);
+      router.push(
+        `${router.pathname}?${queryString.stringify(currentParam)}`,
+        undefined,
+        { shallow: true }
+      );
       return;
     }
     const currentParam = { ...router.query, category: data };
-    router.push(`${router.pathname}?${queryString.stringify(currentParam)}`);
+    router.push(
+      `${router.pathname}?${queryString.stringify(currentParam)}`,
+      undefined,
+      { shallow: true }
+    );
   };
   const handleChange = (value) => {
     onChooseSubCategory(value);
@@ -37,7 +45,6 @@ function ShopSidebar({ dataCategories }) {
             <Link href="">
               <a
                 onClick={(e) => {
-                  e.preventDefault();
                   onChooseSubCategory("all");
                 }}
               >
@@ -56,7 +63,6 @@ function ShopSidebar({ dataCategories }) {
               >
                 <a
                   onClick={(e) => {
-                    e.preventDefault();
                     onChooseSubCategory(item.categoryName);
                   }}
                 >

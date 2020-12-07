@@ -1,54 +1,46 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import Link from "next/link";
-import { Rate, Button, Tooltip, Skeleton, message, Modal, Spin } from "antd";
-import { useSelector, useDispatch } from "react-redux";
+import { Rate, Button, Tooltip, Skeleton, Modal, Spin, message } from "antd";
+import { useDispatch } from "react-redux";
 import classNames from "classnames";
-
-import { formatCurrency } from "../../common/utils";
-import {
-  checkProductInWishlist,
-  checkAvaiableQuantityToAdd,
-} from "../../common/shopUtils";
-import { addToCart } from "../../redux/actions/cartActions";
-import {
-  addToWishlist,
-  removeFromWishlist,
-} from "../../redux/actions/wishlistActions";
 import ShopQuickView from "../shop/ShopQuickView";
-import ColumnGroup from "antd/lib/table/ColumnGroup";
+import { UserContext } from "../../context/UserContext";
+import { useRouter } from "next/router";
+import { addToCart } from "../../actions/user";
 
 function Product({ product, productStyle }) {
+  const router = useRouter();
+  const infoToken = useContext(UserContext);
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
-  // const globalState = useSelector((state) => state.globalReducer);
-  // const cartState = useSelector((state) => state.cartReducer);
-  // const avaiableQuantity = checkAvaiableQuantityToAdd(cartState, data);
-  // const { currency, locales } = globalState.currency;
-  // useEffect(() => {
-  //   setImageLoading(true);
-  // }, [globalState.category]);
+
   const renderProductType = () => {
+    if (product.quantity <= 0) {
+      return <p className="product-type -new">Sold out</p>;
+    }
     if (product.discountPrice) {
       return <p className="product-type -sale">Sale</p>;
-    } else if (product.quantity <= 0) {
-      return <p className="product-type -new">Sold out</p>;
-    } else {
-      return null;
     }
+    return null;
   };
-  const onAddToCart = (data) => {};
-  const onAddToWishlist = (data) => {};
-  const renderStyleClass = () => {
-    const avaialeStyles = ["one", "two", "three"];
-    if (avaialeStyles.includes(productStyle)) {
-      if (!productStyle || productStyle === "one") {
-        return "-style-one";
-      } else {
-        return "-style-" + productStyle;
-      }
+  const onAddToCart = (data) => {
+    if (infoToken?.email) {
+      const payload = {
+        email: infoToken?.email,
+        product: data._id,
+        quantity: 1,
+      };
+      dispatch(
+        addToCart({
+          data: payload,
+          cbSuccess: () =>
+            message.success("Product added to cart successfully"),
+          cbError: () => message.error("Product added to cart fail"),
+        })
+      );
     } else {
-      return "-style-one";
+      router.push("/login");
     }
   };
   const showModal = () => {
