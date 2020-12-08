@@ -101,7 +101,7 @@ function MenuSidebar() {
       </Menu>
       <div className="menu-sidebar-selects">
         <Select
-          defaultValue={globalState.language}
+          defaultValue="en"
           style={{ width: 120 }}
           bordered={false}
           onChange={onSelectLanguage}
@@ -111,7 +111,7 @@ function MenuSidebar() {
           <Option value="vi">Vietnamese</Option>
         </Select>
         <Select
-          defaultValue={globalState.currency.currency}
+          defaultValue="USD"
           style={{ width: 150 }}
           bordered={false}
           onChange={onSelectCurrency}

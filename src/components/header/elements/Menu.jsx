@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { Button, Drawer, Avatar, Dropdown, Menu } from "antd";
 import { useSelector, useDispatch } from "react-redux";
@@ -29,17 +29,26 @@ function MenuComponent({ containerType }) {
   const [menuSidebarOpen, setMenuSidebarOpen] = useState(false);
   const [wishlistSidebarOpen, setWishlistSidebarOpen] = useState(false);
 
+  useEffect(() => {
+    const source = new EventSource(
+      "http://localhost:3001/api/client/user/get-cart"
+    );
+    source.onmessage = function logEvents(event) {
+      console.log(JSON.parse(event.data));
+    };
+  }, []);
+
   const onLogout = async () => {
     await Cookie.remove("refresh_token");
     await Cookie.remove("token");
-    await router.push("/");
+    await router.push("/", undefined, { shallow: true });
   };
 
   const handleClickCart = () => {
     if (infoToken?.email) {
       setCartSidebarOpen(true);
     } else {
-      router.push("/login");
+      router.push("/login", undefined, { shallow: true });
     }
   };
 
