@@ -31,6 +31,14 @@ export default function (state = initialState, { type, payload }) {
         isError: true,
         error: payload.error,
       };
+    case TYPES.CLEAR_OLD_DATA:
+      return {
+        ...state,
+        cart: {},
+        isLoading: false,
+        isError: false,
+        error: {},
+      };
     default:
       return { ...state };
   }

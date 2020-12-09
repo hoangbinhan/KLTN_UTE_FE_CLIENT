@@ -25,9 +25,10 @@ function MenuComponent({ containerType }) {
   const dispatch = useDispatch();
   const router = useRouter();
   const infoToken = useContext(UserContext);
-  const cartState = useSelector((state) => state.cartReducer);
-  const wishlistState = useSelector((state) => state.wishlistReducer);
   const { cart } = useSelector((state) => state.user.getCart);
+  const { isAddSuccess } = useSelector((state) => state.user.addToCart);
+  const { isDeleteSuccess } = useSelector((state) => state.user.deleteCart);
+  const { isUpdateSuccess } = useSelector((state) => state.user.updateCart);
   const [cartSidebarOpen, setCartSidebarOpen] = useState(false);
   const [menuSidebarOpen, setMenuSidebarOpen] = useState(false);
   const [wishlistSidebarOpen, setWishlistSidebarOpen] = useState(false);
@@ -74,7 +75,13 @@ function MenuComponent({ containerType }) {
       dispatch(getCart({ params: { email: infoToken?.email } }));
     }
     () => {};
-  }, [dispatch]);
+  }, [
+    dispatch,
+    infoToken?.email,
+    isAddSuccess,
+    isDeleteSuccess,
+    isUpdateSuccess,
+  ]);
 
   return (
     <>

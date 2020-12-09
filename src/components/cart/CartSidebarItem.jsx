@@ -2,15 +2,9 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Modal, message } from "antd";
 import { useDispatch } from "react-redux";
-
-import { formatCurrency } from "../../common/utils";
 import QuantitySelector from "../controls/QuantitySelector";
-import {
-  removeFromCart,
-  decreaseQuantityCart,
-  increaseQuantityCart,
-} from "../../redux/actions/cartActions";
-
+import { updateCart, deleteCart } from "../../actions/user";
+//TODO.
 function CartSidebarItem({ data }) {
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
@@ -46,8 +40,8 @@ function CartSidebarItem({ data }) {
             defaultValue={data.quantity}
             min={1}
             max={data.item.quantity}
-            // onDecrease={() => dispatch(decreaseQuantityCart(data.cartId))}
-            // onIncrease={() => dispatch(increaseQuantityCart(data.cartId))}
+            onDecrease={() => dispatch(decreaseQuantityCart(data.cartId))}
+            onIncrease={() => dispatch(increaseQuantityCart(data.cartId))}
           />
         </div>
         <div className="cart-sidebar-item__close">

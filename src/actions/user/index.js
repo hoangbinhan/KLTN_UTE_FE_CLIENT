@@ -11,7 +11,7 @@ export const addToCart = ({
   cbError,
 } = {}) => {
   return request({
-    url: CONSTANTS.ENDPOINTS.ADD_TO_CART,
+    url: CONSTANTS.ENDPOINTS.CART,
     method: "POST",
     cbSuccess,
     cbError,
@@ -30,7 +30,7 @@ export const getCart = ({
   cbError,
 } = {}) => {
   return request({
-    url: `${CONSTANTS.ENDPOINTS.GET_CART}`,
+    url: `${CONSTANTS.ENDPOINTS.CART}`,
     method: "GET",
     cbSuccess,
     cbError,
@@ -41,3 +41,45 @@ export const getCart = ({
     ERROR_ACTION: TYPES.GET_CART_ERROR,
   });
 };
+
+export const updateCart = ({
+  params = {},
+  data = {},
+  cbSuccess,
+  cbError,
+} = {}) => {
+  return request({
+    url: `${CONSTANTS.ENDPOINTS.CART}`,
+    method: "PUT",
+    cbSuccess,
+    cbError,
+    params,
+    payload: data,
+    LOADING_ACTION: TYPES.UPDATE_CART_LOADING,
+    SUCCESS_ACTION: TYPES.UPDATE_CART_SUCCESS,
+    ERROR_ACTION: TYPES.UPDATE_CART_ERROR,
+  });
+};
+
+export const deleteCart = ({
+  params = {},
+  data = {},
+  cbSuccess,
+  cbError,
+} = {}) => {
+  return request({
+    url: `${CONSTANTS.ENDPOINTS.CART}`,
+    method: "DELETE",
+    cbSuccess,
+    cbError,
+    params,
+    payload: data,
+    LOADING_ACTION: TYPES.DELETE_CART_LOADING,
+    SUCCESS_ACTION: TYPES.DELETE_CART_SUCCESS,
+    ERROR_ACTION: TYPES.DELETE_CART_ERROR,
+  });
+};
+
+export const clearOldDate = () => (dispatch) => ({
+  TYPE: TYPES.CLEAR_OLD_DATA,
+});
