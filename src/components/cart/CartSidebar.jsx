@@ -1,7 +1,7 @@
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Empty, Button } from "antd";
 import Link from "next/link";
-import React from "react";
 
 function CartSidebar() {
   const dispatch = useDispatch();

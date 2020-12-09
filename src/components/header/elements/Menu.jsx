@@ -21,6 +21,7 @@ import { UserContext } from "../../../context/UserContext";
 import { useRouter } from "next/router";
 
 function MenuComponent({ containerType }) {
+  const [cart, setCart] = useState();
   const router = useRouter();
   const infoToken = useContext(UserContext);
   const cartState = useSelector((state) => state.cartReducer);
@@ -28,15 +29,6 @@ function MenuComponent({ containerType }) {
   const [cartSidebarOpen, setCartSidebarOpen] = useState(false);
   const [menuSidebarOpen, setMenuSidebarOpen] = useState(false);
   const [wishlistSidebarOpen, setWishlistSidebarOpen] = useState(false);
-
-  useEffect(() => {
-    const source = new EventSource(
-      "http://localhost:3001/api/client/user/get-cart"
-    );
-    source.onmessage = function logEvents(event) {
-      console.log(JSON.parse(event.data));
-    };
-  }, []);
 
   const onLogout = async () => {
     await Cookie.remove("refresh_token");
@@ -191,4 +183,4 @@ function MenuComponent({ containerType }) {
   );
 }
 
-export default React.memo(MenuComponent);
+export default MenuComponent;
