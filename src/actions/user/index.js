@@ -1,7 +1,5 @@
 // types
-import {
-  TYPES
-} from "../../constants/actions/user";
+import { TYPES } from "../../constants/actions/user";
 // others
 import CONSTANTS from "../../constants";
 import request from "../../utils/request";
@@ -32,14 +30,14 @@ export const getCart = ({
   cbError,
 } = {}) => {
   return request({
-    url: CONSTANTS.ENDPOINTS.ADD_TO_CART,
+    url: `${CONSTANTS.ENDPOINTS.GET_CART}`,
     method: "GET",
     cbSuccess,
     cbError,
     params,
     payload: data,
-    LOADING_ACTION: TYPES.ADD_TO_CART_LOADING,
-    SUCCESS_ACTION: TYPES.ADD_TO_CART_SUCCESS,
-    ERROR_ACTION: TYPES.ADD_TO_CART_ERROR,
+    LOADING_ACTION: TYPES.GET_CART_LOADING,
+    SUCCESS_ACTION: TYPES.GET_CART_SUCCESS,
+    ERROR_ACTION: TYPES.GET_CART_ERROR,
   });
 };

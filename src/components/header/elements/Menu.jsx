@@ -19,13 +19,15 @@ import Container from "../../other/Container";
 import Cookie from "js-cookie";
 import { UserContext } from "../../../context/UserContext";
 import { useRouter } from "next/router";
+import { getCart } from "../../../actions/user";
 
 function MenuComponent({ containerType }) {
-  const [cart, setCart] = useState();
+  const dispatch = useDispatch();
   const router = useRouter();
   const infoToken = useContext(UserContext);
   const cartState = useSelector((state) => state.cartReducer);
   const wishlistState = useSelector((state) => state.wishlistReducer);
+  const { cart } = useSelector((state) => state.user.getCart);
   const [cartSidebarOpen, setCartSidebarOpen] = useState(false);
   const [menuSidebarOpen, setMenuSidebarOpen] = useState(false);
   const [wishlistSidebarOpen, setWishlistSidebarOpen] = useState(false);
@@ -66,6 +68,13 @@ function MenuComponent({ containerType }) {
       </Menu.Item>
     </Menu>
   );
+
+  useEffect(() => {
+    if (infoToken?.email) {
+      dispatch(getCart({ params: { email: infoToken?.email } }));
+    }
+    () => {};
+  }, [dispatch]);
 
   return (
     <>
@@ -117,7 +126,7 @@ function MenuComponent({ containerType }) {
                   }
                   alt=""
                 />
-                <span>{getTotalProductInCart(cartState)}</span>
+                <span>{cart?.totalQuantity || 0}</span>
               </div>
             </div>
           </div>
@@ -148,7 +157,7 @@ function MenuComponent({ containerType }) {
       {/* Cart */}
       <Drawer
         placement="right"
-        title={`Shopping cart (${getTotalProductInCart(cartState)})`}
+        title={`Shopping cart (${cart?.totalQuantity || 0})`}
         closable={true}
         onClose={() => setCartSidebarOpen(false)}
         closeIcon={

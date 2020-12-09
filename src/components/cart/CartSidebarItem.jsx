@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Modal, message } from "antd";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { formatCurrency } from "../../common/utils";
 import QuantitySelector from "../controls/QuantitySelector";
@@ -14,9 +14,6 @@ import {
 function CartSidebarItem({ data }) {
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
-  const [quantity, setQuantity] = useState(data.cartQuantity);
-  const globalState = useSelector((state) => state.globalReducer);
-  const { currency, locales } = globalState.currency;
   const onRemoveProductFromCart = (e) => {
     e.preventDefault();
     showModal();
@@ -28,9 +25,8 @@ function CartSidebarItem({ data }) {
   const handleOk = (e) => {
     dispatch(removeFromCart(data.cartId));
     setVisible(false);
-    return message.error("Product removed from cart");
+    return message.success("Product removed from cart");
   };
-
   const handleCancel = (e) => {
     setVisible(false);
   };
@@ -38,32 +34,20 @@ function CartSidebarItem({ data }) {
     <>
       <div className="cart-sidebar-item">
         <div className="cart-sidebar-item__image">
-          <img src={data.thumbImage[0]} alt="Product image" />
+          <img src={data.item.image[0].url} alt="Product image" />
         </div>
         <div className="cart-sidebar-item__content">
-          <Link href={`/product/[slug]`} as={`/product/${data.slug}`}>
-            <a>{data.name}</a>
+          <Link href={`/product/[slug]`} as={`/product/${data.item._id}`}>
+            <a>{data.item.productName}</a>
           </Link>
-          <h5>
-            {data.discount
-              ? formatCurrency(
-                  (data.price - data.discount) * data.cartQuantity,
-                  locales,
-                  currency
-                )
-              : formatCurrency(
-                  data.price * data.cartQuantity,
-                  locales,
-                  currency
-                )}
-          </h5>
+          <h5>{data.quantity * data.item.price}</h5>
           <QuantitySelector
             size="small"
-            defaultValue={data.cartQuantity}
+            defaultValue={data.quantity}
             min={1}
-            max={data.quantity}
-            onDecrease={() => dispatch(decreaseQuantityCart(data.cartId))}
-            onIncrease={() => dispatch(increaseQuantityCart(data.cartId))}
+            max={data.item.quantity}
+            // onDecrease={() => dispatch(decreaseQuantityCart(data.cartId))}
+            // onIncrease={() => dispatch(increaseQuantityCart(data.cartId))}
           />
         </div>
         <div className="cart-sidebar-item__close">
