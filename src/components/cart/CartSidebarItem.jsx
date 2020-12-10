@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Link from "next/link";
 import { Modal, message } from "antd";
 import { useDispatch } from "react-redux";
 import QuantitySelector from "../controls/QuantitySelector";
 import { updateCart, deleteCart } from "../../actions/user";
+import { UserContext } from "../../context/UserContext";
 //TODO.
 function CartSidebarItem({ data }) {
+  const infoToken = useContext(UserContext);
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const onRemoveProductFromCart = (e) => {
@@ -17,13 +19,44 @@ function CartSidebarItem({ data }) {
   };
 
   const handleOk = (e) => {
-    dispatch(removeFromCart(data.cartId));
-    setVisible(false);
-    return message.success("Product removed from cart");
+    if (infoToken?.email) {
+      dispatch(
+        deleteCart({
+          data: {
+            email: infoToken?.email,
+            id: data.item?._id,
+          },
+          cbSuccess: () => message.success("Successful"),
+          cbError: () => message.error("Some thing went wrong"),
+        })
+      );
+      setVisible(false);
+    } else {
+      message.error("Some thing went wrong");
+    }
   };
   const handleCancel = (e) => {
     setVisible(false);
   };
+
+  const handleUpdateCart = (quantity) => {
+    if (infoToken?.email) {
+      dispatch(
+        updateCart({
+          data: {
+            email: infoToken?.email,
+            id: data.item?._id,
+            quantity: quantity,
+          },
+          cbSuccess: () => message.success("Successful"),
+          cbError: () => message.error("Some thing went wrong"),
+        })
+      );
+    } else {
+      message.error("Some thing went wrong");
+    }
+  };
+
   return (
     <>
       <div className="cart-sidebar-item">
@@ -40,8 +73,8 @@ function CartSidebarItem({ data }) {
             defaultValue={data.quantity}
             min={1}
             max={data.item.quantity}
-            onDecrease={() => dispatch(decreaseQuantityCart(data.cartId))}
-            onIncrease={() => dispatch(increaseQuantityCart(data.cartId))}
+            onDecrease={() => handleUpdateCart(-1)}
+            onIncrease={() => handleUpdateCart(1)}
           />
         </div>
         <div className="cart-sidebar-item__close">

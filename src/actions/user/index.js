@@ -80,6 +80,7 @@ export const deleteCart = ({
   });
 };
 
-export const clearOldDate = () => (dispatch) => ({
-  TYPE: TYPES.CLEAR_OLD_DATA,
-});
+export const clearOldDate = () => (dispatch) =>
+  dispatch({
+    type: TYPES.CLEAR_OLD_DATA,
+  });

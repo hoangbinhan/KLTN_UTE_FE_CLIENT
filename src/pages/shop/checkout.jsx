@@ -40,12 +40,9 @@ const paymentData = [
 ];
 
 export default function checkout() {
-  const { Option } = Select;
   const { Panel } = Collapse;
   const router = useRouter();
-  const cartState = useSelector((state) => state.cartReducer);
-  const globalState = useSelector((state) => state.globalReducer);
-  const { currency, locales } = globalState.currency;
+  const { cart } = useSelector((state) => state.user.getCart);
   const [paymentMethod, setPaymentMethod] = useState("Direct Bank Transfer");
   const settings = {
     arrows: false,
@@ -76,7 +73,8 @@ export default function checkout() {
     ],
   };
   const onFinish = (values) => {
-    router.push("/shop/checkout-complete");
+    console.log("values", values);
+    // router.push("/shop/checkout-complete");
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -135,42 +133,6 @@ export default function checkout() {
                     </Col>
                     <Col span={24} md={12}>
                       <Form.Item
-                        label="Provine"
-                        name="provine"
-                        rules={[
-                          {
-                            required: true,
-                            message: "Please input your provine!",
-                          },
-                        ]}
-                      >
-                        <Select>
-                          <Option value="male">male</Option>
-                          <Option value="female">female</Option>
-                          <Option value="other">other</Option>
-                        </Select>
-                      </Form.Item>
-                    </Col>
-                    <Col span={24} md={12}>
-                      <Form.Item
-                        label="City"
-                        name="city"
-                        rules={[
-                          {
-                            required: true,
-                            message: "Please input your city!",
-                          },
-                        ]}
-                      >
-                        <Select>
-                          <Option value="male">male</Option>
-                          <Option value="female">female</Option>
-                          <Option value="other">other</Option>
-                        </Select>
-                      </Form.Item>
-                    </Col>
-                    <Col span={24} md={12}>
-                      <Form.Item
                         label="Address"
                         name="address"
                         rules={[
@@ -184,30 +146,7 @@ export default function checkout() {
                       </Form.Item>
                     </Col>
                     <Col span={24} md={12}>
-                      <Form.Item label="Address 2" name="address2">
-                        <Input />
-                      </Form.Item>
-                    </Col>
-                    <Col span={24} md={12}>
-                      <Form.Item
-                        label="Country/States"
-                        name="country"
-                        rules={[
-                          {
-                            required: true,
-                            message: "Please input your country !",
-                          },
-                        ]}
-                      >
-                        <Select>
-                          <Option value="male">male</Option>
-                          <Option value="female">female</Option>
-                          <Option value="other">other</Option>
-                        </Select>
-                      </Form.Item>
-                    </Col>
-                    <Col span={24} md={12}>
-                      <Form.Item label="Postcode/Zip" name="zip">
+                      <Form.Item label="Note" name="note">
                         <Input />
                       </Form.Item>
                     </Col>
@@ -230,14 +169,6 @@ export default function checkout() {
                         <Input />
                       </Form.Item>
                     </Col>
-                    <Col span={24}>
-                      <Form.Item name="news-subcribe" valuePropName="checked">
-                        <Checkbox>
-                          I want to receive exclusive discounts and information
-                          on the latest Stora trends.
-                        </Checkbox>
-                      </Form.Item>
-                    </Col>
                   </Row>
                 </Form>
               </Col>
@@ -254,21 +185,13 @@ export default function checkout() {
                         </tr>
                       </thead>
                       <tbody>
-                        {cartState.map((item, index) => (
+                        {cart?.cart?.map((item, index) => (
                           <tr key={index}>
                             <td>
-                              {item.name}
-                              <span> x {item.cartQuantity}</span>
+                              {item.item.productName}
+                              <span> x {item.quantity}</span>
                             </td>
-                            <td>
-                              {item.discount
-                                ? formatCurrency(
-                                    item.price - item.discount,
-                                    locales,
-                                    currency
-                                  )
-                                : formatCurrency(item.price, locales, currency)}
-                            </td>
+                            <td>{item.item.price}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -278,13 +201,7 @@ export default function checkout() {
                       <tbody>
                         <tr>
                           <td>Subtotal</td>
-                          <td>
-                            {formatCurrency(
-                              calculateTotalPrice(cartState),
-                              locales,
-                              currency
-                            )}
-                          </td>
+                          <td>{cart?.totalPrice}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -304,13 +221,7 @@ export default function checkout() {
                       <tbody>
                         <tr>
                           <td>Total</td>
-                          <td>
-                            {formatCurrency(
-                              calculateTotalPrice(cartState),
-                              locales,
-                              currency
-                            )}
-                          </td>
+                          <td>{cart?.totalPrice}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -352,11 +263,11 @@ export default function checkout() {
             <h5>Discount When Purchased Together</h5>
             <div className="checkout-related-products">
               <Slider {...settings}>
-                {productData.slice(0, 8).map((item, index) => (
+                {/* {productData.slice(0, 8).map((item, index) => (
                   <div className="slider-item" key={index}>
                     <Product data={item} />
                   </div>
-                ))}
+                ))} */}
               </Slider>
             </div>
           </Container>
@@ -373,24 +284,12 @@ export default function checkout() {
                 <table>
                   <tbody>
                     <tr>
-                      <td>{cartState.length} items</td>
-                      <td>
-                        {formatCurrency(
-                          calculateTotalPrice(cartState),
-                          locales,
-                          currency
-                        )}
-                      </td>
+                      <td>{cart?.totalItem} items</td>
+                      <td>{cart?.totalPrice}</td>
                     </tr>
                     <tr>
                       <td>Total:</td>
-                      <td>
-                        {formatCurrency(
-                          calculateTotalPrice(cartState),
-                          locales,
-                          currency
-                        )}
-                      </td>
+                      <td>{cart?.totalPrice}</td>
                     </tr>
                   </tbody>
                 </table>

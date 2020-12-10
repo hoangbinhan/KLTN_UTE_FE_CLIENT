@@ -11,7 +11,7 @@ function CartSidebar() {
   ) : (
     <div className="cart-sidebar">
       <div className="cart-sidebar-products">
-        {cart?.cart.map((item, index) => (
+        {cart?.cart?.map((item, index) => (
           <CartSidebarItem key={index} data={item} />
         ))}
       </div>

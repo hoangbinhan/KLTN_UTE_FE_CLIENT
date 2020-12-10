@@ -14,12 +14,11 @@ import CartSidebar from "../../cart/CartSidebar";
 import WishlistSidebar from "../../wishlist/WishlistSidebar";
 import MenuSidebar from "./MenuSidebar";
 import SearchBar from "./SearchBar";
-import { getTotalProductInCart } from "../../../common/shopUtils";
 import Container from "../../other/Container";
 import Cookie from "js-cookie";
 import { UserContext } from "../../../context/UserContext";
 import { useRouter } from "next/router";
-import { getCart } from "../../../actions/user";
+import { getCart, clearOldDate } from "../../../actions/user";
 
 function MenuComponent({ containerType }) {
   const dispatch = useDispatch();
@@ -37,6 +36,7 @@ function MenuComponent({ containerType }) {
     await Cookie.remove("refresh_token");
     await Cookie.remove("token");
     await router.push("/", undefined, { shallow: true });
+    dispatch(clearOldDate());
   };
 
   const handleClickCart = () => {
