@@ -59,7 +59,7 @@ function ShopQuickView({ data, setModalVisible }) {
         })
       );
     } else {
-      router.push("/login");
+      router.push("/user/login");
     }
   };
   return (

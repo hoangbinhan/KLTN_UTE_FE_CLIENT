@@ -43,7 +43,7 @@ function MenuComponent({ containerType }) {
     if (infoToken?.email) {
       setCartSidebarOpen(true);
     } else {
-      router.push("/login", undefined, { shallow: true });
+      router.push("/user/login", undefined, { shallow: true });
     }
   };
 
