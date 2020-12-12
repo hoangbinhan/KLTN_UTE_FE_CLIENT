@@ -41,7 +41,7 @@ function Product({ product, productStyle }) {
         })
       );
     } else {
-      router.push("/login");
+      router.push("/user/login");
     }
   };
   const showModal = () => {

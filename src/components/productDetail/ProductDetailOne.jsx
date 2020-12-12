@@ -30,7 +30,7 @@ function ProductDetailLayoutOne({ data }) {
         })
       );
     } else {
-      router.push("/login");
+      router.push("/user/login");
     }
   };
   return (
