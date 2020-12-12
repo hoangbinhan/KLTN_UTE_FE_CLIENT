@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // TODO: Add environments
-export const baseUrl = "http://localhost:3001";
+export const baseUrl = "https://kltn-ute-be.herokuapp.com";
 
 export const AXIOS_INSTANCE = axios.create({
   baseURL: baseUrl,
