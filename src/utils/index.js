@@ -27,9 +27,13 @@ export const getBase64Image = (img, callback) => {
 };
 
 export const formatVND = (value, currency) => {
-  return `${parseFloat(value)
-    .toFixed(2)
-    .replace(/(\d)(?=(\d{3})+\.)/g, "$1,")} ${currency}`;
+  return new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  }).format(value);
+  // return `${parseFloat(value)
+  //   .toFixed(2)
+  //   .replace(/(\d)(?=(\d{3})+\.)/g, "$1,")} ${currency}`;
 };
 
 export const beforeUpload = (file) => {

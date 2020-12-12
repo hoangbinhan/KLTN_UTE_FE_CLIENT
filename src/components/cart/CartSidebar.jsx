@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { Empty, Button } from "antd";
 import Link from "next/link";
 import CartSidebarItem from "./CartSidebarItem";
+import { formatVND } from "../../utils";
 
 function CartSidebar() {
   const { cart } = useSelector((state) => state.user.getCart);
@@ -17,7 +18,7 @@ function CartSidebar() {
       </div>
       <div className="cart-sidebar-total">
         <h5>
-          Total: <span>{cart?.totalPrice}</span>
+          Total: <span>{formatVND(cart?.totalPrice, "VND")}</span>
         </h5>
         <div className="cart-sidebar-total__buttons">
           <Button type="primary" shape="round">

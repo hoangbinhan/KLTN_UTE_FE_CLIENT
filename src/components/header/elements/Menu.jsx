@@ -119,7 +119,7 @@ function MenuComponent({ containerType }) {
                 </Dropdown>
               ) : (
                 <Button>
-                  <Link href="/login">
+                  <Link href="/user/login">
                     <a>Join now</a>
                   </Link>
                 </Button>

@@ -4,6 +4,7 @@ import Parser from "html-react-parser";
 import { useDispatch } from "react-redux";
 import classNames from "classnames";
 import QuantitySelector from "../../controls/QuantitySelector";
+import { formatVND } from "../../../utils";
 
 function ProductDetailContentOne({
   data,
@@ -24,8 +25,10 @@ function ProductDetailContentOne({
         </span>
       </div>
       <div className="product-detail-content-one-price">
-        <h5>{data.price}</h5>
-        {data.discountPrice && <span>{data.discountPrice}</span>}
+        <h5>{formatVND(data.price, "VND")}</h5>
+        {data.discountPrice && (
+          <span>{formatVND(data.discountPrice, "VND")}</span>
+        )}
       </div>
       <div className="product-detail-content-one-description">
         {Parser(`${data.description}`)}

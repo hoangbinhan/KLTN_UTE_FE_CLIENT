@@ -4,6 +4,77 @@ import { TYPES } from "../../constants/actions/user";
 import CONSTANTS from "../../constants";
 import request from "../../utils/request";
 
+export const login = ({ params = {}, data = {}, cbSuccess, cbError } = {}) => {
+  return request({
+    url: CONSTANTS.ENDPOINTS.LOGIN,
+    method: "POST",
+    cbSuccess,
+    cbError,
+    params,
+    payload: data,
+    LOADING_ACTION: TYPES.LOGIN_LOADING,
+    SUCCESS_ACTION: TYPES.LOGIN_SUCCESS,
+    ERROR_ACTION: TYPES.LOGIN_ERROR,
+  });
+};
+
+export const register = ({
+  params = {},
+  data = {},
+  cbSuccess,
+  cbError,
+} = {}) => {
+  return request({
+    url: CONSTANTS.ENDPOINTS.REGISTER,
+    method: "POST",
+    cbSuccess,
+    cbError,
+    params,
+    payload: data,
+    LOADING_ACTION: TYPES.REGISTER_LOADING,
+    SUCCESS_ACTION: TYPES.REGISTER_SUCCESS,
+    ERROR_ACTION: TYPES.REGISTER_ERROR,
+  });
+};
+
+export const forgotPassword = ({
+  params = {},
+  data = {},
+  cbSuccess,
+  cbError,
+} = {}) => {
+  return request({
+    url: CONSTANTS.ENDPOINTS.FORGOT_PASSWORD,
+    method: "POST",
+    cbSuccess,
+    cbError,
+    params,
+    payload: data,
+    LOADING_ACTION: TYPES.FORGOT_PASSWORD_LOADING,
+    SUCCESS_ACTION: TYPES.FORGOT_PASSWORD_SUCCESS,
+    ERROR_ACTION: TYPES.FORGOT_PASSWORD_ERROR,
+  });
+};
+
+export const updatePassword = ({
+  params = {},
+  data = {},
+  cbSuccess,
+  cbError,
+} = {}) => {
+  return request({
+    url: CONSTANTS.ENDPOINTS.UPDATE_PASSWORD,
+    method: "PUT",
+    cbSuccess,
+    cbError,
+    params,
+    payload: data,
+    LOADING_ACTION: TYPES.UPDATE_PASSWORD_LOADING,
+    SUCCESS_ACTION: TYPES.UPDATE_PASSWORD_SUCCESS,
+    ERROR_ACTION: TYPES.UPDATE_PASSWORD_ERROR,
+  });
+};
+
 export const addToCart = ({
   params = {},
   data = {},

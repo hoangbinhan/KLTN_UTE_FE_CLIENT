@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import QuantitySelector from "../controls/QuantitySelector";
 import { updateCart, deleteCart } from "../../actions/user";
 import { UserContext } from "../../context/UserContext";
+import { formatVND } from "../../utils";
 //TODO.
 function CartSidebarItem({ data }) {
   const infoToken = useContext(UserContext);
@@ -67,7 +68,7 @@ function CartSidebarItem({ data }) {
           <Link href={`/product/[slug]`} as={`/product/${data.item._id}`}>
             <a>{data.item.productName}</a>
           </Link>
-          <h5>{data.quantity * data.item.price}</h5>
+          <h5>{formatVND(data.quantity * data.item.price, "VND")}</h5>
           <QuantitySelector
             size="small"
             defaultValue={data.quantity}

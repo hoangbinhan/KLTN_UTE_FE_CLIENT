@@ -1,17 +1,21 @@
 //libs
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import classNames from "classnames";
 import { Select, Image } from "antd";
 import queryString from "query-string";
 import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchDataCategories } from "../../actions/home";
 
 function ShopSidebar({ dataCategories }) {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const { listCategories } = useSelector(
+    (state) => state.home.fetchDataCategories
+  );
   const { Option } = Select;
-
   const onChooseSubCategory = (data) => {
-    console.log(data);
     if (!data || data === "all") {
       const currentParam = { ...router.query };
       delete currentParam.category;
@@ -32,6 +36,11 @@ function ShopSidebar({ dataCategories }) {
   const handleChange = (value) => {
     onChooseSubCategory(value);
   };
+
+  useEffect(() => {
+    dispatch(fetchDataCategories());
+  }, []);
+
   return (
     <div className="shop-sidebar">
       <h5>Categories</h5>
@@ -53,8 +62,8 @@ function ShopSidebar({ dataCategories }) {
               </a>
             </Link>
           </li>
-          {dataCategories &&
-            dataCategories.map((item, index) => (
+          {listCategories &&
+            listCategories.map((item, index) => (
               <li
                 key={index}
                 className={classNames({
@@ -83,8 +92,8 @@ function ShopSidebar({ dataCategories }) {
             <i className="icon_document_alt" />
             All Category
           </Option>
-          {dataCategories &&
-            dataCategories.map((item, index) => (
+          {listCategories &&
+            listCategories.map((item, index) => (
               <Option key={index} value={item.categoryName}>
                 {" "}
                 <Image width={16} src={item.imageUrl} />

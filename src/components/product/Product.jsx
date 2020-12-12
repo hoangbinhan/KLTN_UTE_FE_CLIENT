@@ -7,6 +7,7 @@ import ShopQuickView from "../shop/ShopQuickView";
 import { UserContext } from "../../context/UserContext";
 import { useRouter } from "next/router";
 import { addToCart } from "../../actions/user";
+import { formatVND } from "../../utils";
 
 function Product({ product, productStyle }) {
   const router = useRouter();
@@ -109,8 +110,12 @@ function Product({ product, productStyle }) {
           </div>
           <div className="product-content__footer">
             <div className="product-content__footer-price">
-              <h5 className="product-price">{product.price}</h5>
-              {product.discountPrice && <span>{product.discountPrice}</span>}
+              <h5 className="product-price">
+                {formatVND(product.price, "VND")}
+              </h5>
+              {product.discountPrice && (
+                <span>{formatVND(product.discountPrice, "VND")}</span>
+              )}
             </div>
             {!productStyle || productStyle === "one" ? (
               <Tooltip title="Add to cart">

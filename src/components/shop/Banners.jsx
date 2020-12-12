@@ -1,4 +1,4 @@
-import { Row, Col, Divider } from "antd";
+import { Row, Col } from "antd";
 import Link from "next/link";
 import Container from "../other/Container";
 
@@ -14,7 +14,7 @@ export default function Banners({ containerType }) {
                   <img
                     src={
                       process.env.PUBLIC_URL +
-                      `/assets/images/banners/${index + 1}.png`
+                      `/assets/images/banners/${index + 1}.jpg`
                     }
                     alt="banner"
                   />

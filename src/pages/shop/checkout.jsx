@@ -13,27 +13,22 @@ import Slider from "react-slick";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import Link from "next/link";
-
-import { formatCurrency } from "../../common/utils";
-import { calculateTotalPrice } from "../../common/shopUtils";
 import LayoutOne from "../../components/layouts/LayoutOne";
 import Container from "../../components/other/Container";
-import productData from "../../data/product.json";
 import Product from "../../components/product/Product";
+const tree = require("../../addressVN/tree.json");
+import { formatVND } from "../../utils";
+
+const { Option } = Select;
 
 const paymentData = [
   {
-    name: "Direct Bank Transfer",
+    name: "COD Payment",
     content:
       "With so many different ways today to find information online, it can sometimes be hard to know where to go to first.",
   },
   {
-    name: "Cheque Payment",
-    content:
-      "With so many different ways today to find information online, it can sometimes be hard to know where to go to first.",
-  },
-  {
-    name: "PayPal",
+    name: "Momo Payment",
     content:
       "With so many different ways today to find information online, it can sometimes be hard to know where to go to first.",
   },
@@ -44,6 +39,11 @@ export default function checkout() {
   const router = useRouter();
   const { cart } = useSelector((state) => state.user.getCart);
   const [paymentMethod, setPaymentMethod] = useState("Direct Bank Transfer");
+  const [district, setDistrict] = useState([]);
+  const [ward, setWard] = useState([]);
+  const [isDisable, setIsDisable] = useState(false);
+  const [form] = Form.useForm();
+
   const settings = {
     arrows: false,
     infinite: true,
@@ -73,6 +73,7 @@ export default function checkout() {
     ],
   };
   const onFinish = (values) => {
+    console.log("paymentMethod", paymentMethod);
     console.log("values", values);
     // router.push("/shop/checkout-complete");
   };
@@ -85,6 +86,21 @@ export default function checkout() {
     },
     [paymentMethod]
   );
+
+  const handleProvinceOnChange = async (value, key) => {
+    await setDistrict([]);
+    await setWard([]);
+    await form.setFieldsValue({ district: undefined, ward: undefined });
+    await setDistrict(tree[key.key][`quan-huyen`]);
+  };
+
+  const handleDistrictOnChange = async (value, key) => {
+    await setWard([]);
+    await form.setFieldsValue({ ward: undefined });
+    await setWard(district[key.key][`xa-phuong`]);
+  };
+
+  const handleWardOnChange = async (value, key) => {};
   return (
     <LayoutOne title="Checkout">
       <div className="checkout">
@@ -101,12 +117,13 @@ export default function checkout() {
                   id="checkout-form"
                   layout="vertical"
                   className="checkout-form"
+                  form={form}
                 >
                   <Row gutter={{ xs: 10, sm: 15, md: 30, lg: 70 }}>
                     <Col span={24} md={12}>
                       <Form.Item
                         label="First name"
-                        name="firstname"
+                        name="firstName"
                         rules={[
                           {
                             required: true,
@@ -114,13 +131,13 @@ export default function checkout() {
                           },
                         ]}
                       >
-                        <Input />
+                        <Input placeholder="Please input your first name!" />
                       </Form.Item>
                     </Col>
                     <Col span={24} md={12}>
                       <Form.Item
                         label="Last name"
-                        name="lastname"
+                        name="lastName"
                         rules={[
                           {
                             required: true,
@@ -128,31 +145,12 @@ export default function checkout() {
                           },
                         ]}
                       >
-                        <Input />
-                      </Form.Item>
-                    </Col>
-                    <Col span={24} md={12}>
-                      <Form.Item
-                        label="Address"
-                        name="address"
-                        rules={[
-                          {
-                            required: true,
-                            message: "Please input your address!",
-                          },
-                        ]}
-                      >
-                        <Input />
-                      </Form.Item>
-                    </Col>
-                    <Col span={24} md={12}>
-                      <Form.Item label="Note" name="note">
-                        <Input />
+                        <Input placeholder="Please input your last name!" />
                       </Form.Item>
                     </Col>
                     <Col span={24} md={12}>
                       <Form.Item label="Email" name="email">
-                        <Input />
+                        <Input placeholder="Please input your email!" />
                       </Form.Item>
                     </Col>
                     <Col span={24} md={12}>
@@ -163,6 +161,65 @@ export default function checkout() {
                           {
                             required: true,
                             message: "Please input your phone number !",
+                          },
+                        ]}
+                      >
+                        <Input placeholder="Please input your phone number!" />
+                      </Form.Item>
+                    </Col>
+                    <Col span={24} md={12}>
+                      <Form.Item label="Province" name="province">
+                        <Select
+                          onChange={handleProvinceOnChange}
+                          placeholder="select province/city..."
+                          disabled={isDisable}
+                        >
+                          {Object.values(tree).map((item) => (
+                            <Option key={item.code} value={item.name}>
+                              {item.name}
+                            </Option>
+                          ))}
+                        </Select>
+                      </Form.Item>
+                    </Col>
+                    <Col span={24} md={12}>
+                      <Form.Item label="District" name="district">
+                        <Select
+                          onChange={handleDistrictOnChange}
+                          placeholder="select district..."
+                          disabled={isDisable}
+                        >
+                          {Object.values(district).map((item) => (
+                            <Option key={item.code} value={item.name}>
+                              {item.name}
+                            </Option>
+                          ))}
+                        </Select>
+                      </Form.Item>
+                    </Col>
+                    <Col span={24} md={12}>
+                      <Form.Item label="Ward" name="ward">
+                        <Select
+                          onChange={handleWardOnChange}
+                          placeholder="select ward..."
+                          disabled={isDisable}
+                        >
+                          {Object.values(ward).map((item) => (
+                            <Option key={item.code} value={item.name}>
+                              {item.name}
+                            </Option>
+                          ))}
+                        </Select>
+                      </Form.Item>
+                    </Col>
+                    <Col span={24} md={12}>
+                      <Form.Item
+                        label="Address"
+                        name="address"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input your address!",
                           },
                         ]}
                       >
@@ -191,7 +248,12 @@ export default function checkout() {
                               {item.item.productName}
                               <span> x {item.quantity}</span>
                             </td>
-                            <td>{item.item.price}</td>
+                            <td>
+                              {formatVND(
+                                item.item.price * item.quantity,
+                                "VND"
+                              )}
+                            </td>
                           </tr>
                         ))}
                       </tbody>
@@ -201,7 +263,7 @@ export default function checkout() {
                       <tbody>
                         <tr>
                           <td>Subtotal</td>
-                          <td>{cart?.totalPrice}</td>
+                          <td>{formatVND(cart?.totalPrice, "VND")}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -221,7 +283,7 @@ export default function checkout() {
                       <tbody>
                         <tr>
                           <td>Total</td>
-                          <td>{cart?.totalPrice}</td>
+                          <td>{formatVND(cart?.totalPrice, "VND")}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -285,11 +347,11 @@ export default function checkout() {
                   <tbody>
                     <tr>
                       <td>{cart?.totalItem} items</td>
-                      <td>{cart?.totalPrice}</td>
+                      <td>{formatVND(cart?.totalPrice, "VND")}</td>
                     </tr>
                     <tr>
                       <td>Total:</td>
-                      <td>{cart?.totalPrice}</td>
+                      <td>{formatVND(cart?.totalPrice, "VND")}</td>
                     </tr>
                   </tbody>
                 </table>

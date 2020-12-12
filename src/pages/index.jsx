@@ -7,7 +7,6 @@ import Banners from "../components/shop/Banners";
 import LayoutOne from "../components/layouts/LayoutOne";
 import ShopLayout from "../components/shop/ShopLayout";
 //actions
-import { fetchDataCategories } from "../actions/home";
 
 export default function Home({ categories }) {
   return (
@@ -23,21 +22,4 @@ export default function Home({ categories }) {
       />
     </LayoutOne>
   );
-}
-
-export async function getStaticProps(context) {
-  const res = await axios.get(
-    `http://localhost:3001/api/client/home/categories`
-  );
-  const categories = await res.data.data.payload;
-  if (!categories) {
-    return {
-      notFound: true,
-    };
-  }
-
-  return {
-    props: { categories },
-    revalidate: 60,
-  };
 }
