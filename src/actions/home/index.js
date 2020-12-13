@@ -30,3 +30,15 @@ export const fetchDataProducts = ({ params = {}, data = {}, cbSuccess } = {}) =>
     SUCCESS_ACTION: TYPES.FETCH_DATA_PRODUCTS_SUCCESS,
     ERROR_ACTION: TYPES.FETCH_DATA_PRODUCTS_ERROR,
   });
+
+export const searchDataProduct = ({ params = {}, data = {}, cbSuccess } = {}) =>
+  request({
+    url: CONSTANTS.ENDPOINTS.PRODUCTS,
+    method: "GET",
+    cbSuccess,
+    params,
+    payload: data,
+    LOADING_ACTION: TYPES.SEARCH_DATA_PRODUCTS_LOADING,
+    SUCCESS_ACTION: TYPES.SEARCH_DATA_PRODUCTS_SUCCESS,
+    ERROR_ACTION: TYPES.SEARCH_DATA_PRODUCTS_ERROR,
+  });

@@ -39,6 +39,10 @@ function MenuComponent({ containerType }) {
     dispatch(clearOldDate());
   };
 
+  const onInformation = () => {
+    router.push("/user/information");
+  };
+
   const handleClickCart = () => {
     if (infoToken?.email) {
       setCartSidebarOpen(true);
@@ -50,7 +54,7 @@ function MenuComponent({ containerType }) {
   const contentMenu = (
     <Menu>
       <Menu.Item>
-        <div className="item-user-control">
+        <div className="item-user-control" onClick={onInformation}>
           <ExceptionOutlined style={{ marginRight: ".3rem" }} />
           Infomation
         </div>
@@ -105,10 +109,7 @@ function MenuComponent({ containerType }) {
                 <a style={{ color: "white", fontSize: "2rem" }}>DA STORE</a>
               </Link>
             </div>
-            <SearchBar
-              fillData={productsData}
-              placeholder="What are you looking for ?"
-            />
+            <SearchBar placeholder="What are you looking for ?" />
             <div className="menu-functions">
               {infoToken?.email ? (
                 <Dropdown overlay={contentMenu}>

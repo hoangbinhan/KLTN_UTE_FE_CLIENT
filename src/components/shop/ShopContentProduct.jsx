@@ -9,16 +9,17 @@ import { useRouter } from "next/router";
 //actions
 import { fetchDataProducts } from "../../actions/home";
 
-function ShopContentProduct({
-  productResponsive,
-  fiveColumn,
-  data,
-  productPerPage,
-  productStyle,
-}) {
+function ShopContentProduct({ productResponsive, fiveColumn, productStyle }) {
   const router = useRouter();
   const dispatch = useDispatch();
   const { listProducts } = useSelector((state) => state.home.fetchDataProducts);
+  const onShowSizeChange = (current, pageSize) => {
+    console.log(current, pageSize);
+  };
+  const onChangePagination = (page, pageSize) => {
+    const currentParam = { ...router.query, page, size: pageSize };
+    router.push(`${router.pathname}?${queryString.stringify(currentParam)}`);
+  };
   useEffect(() => {
     dispatch(fetchDataProducts({ params: router.query }));
   }, [dispatch, router.query]);
@@ -41,17 +42,18 @@ function ShopContentProduct({
                   </Col>
                 ))}
               </Row>
-              {/* {currentData.length >= productPerPage && (
+              {listProducts && (
                 <Pagination
                   classNames="shop-content__product-pagination"
                   defaultCurrent={1}
-                  current={page}
-                  total={currentData.length}
-                  pageSize={productPerPage}
-                  itemRender={itemRender}
-                  onChange={(page, pageSize) => onChangeOffset(page, pageSize)}
+                  current={listProducts.page + 1}
+                  total={listProducts.total}
+                  pageSize={listProducts.size}
+                  showSizeChanger
+                  onShowSizeChange={onShowSizeChange}
+                  onChange={onChangePagination}
                 />
-              )} */}
+              )}
             </>
           ) : (
             <Empty />

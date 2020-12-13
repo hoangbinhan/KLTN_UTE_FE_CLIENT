@@ -15,14 +15,7 @@ function Footer({ containerType }) {
             <Col className="gutter-row" span="24" sm={12} lg={8}>
               <div className="footer-top-item -col-one">
                 <Link href="#">
-                  <a>
-                    <img
-                      src={
-                        process.env.PUBLIC_URL + "/assets/images/logo-dark.png"
-                      }
-                      alt="Logo"
-                    />
-                  </a>
+                  <a>DA STORE</a>
                 </Link>
                 <p>7176 Blue Spring Lane Santa Monica, CA 90403</p>
                 <ul>

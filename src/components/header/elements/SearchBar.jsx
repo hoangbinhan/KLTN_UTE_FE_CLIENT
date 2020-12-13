@@ -8,29 +8,34 @@ import {
 } from "../../../redux/actions/globalActions";
 import { setSubCategory } from "../../../redux/actions/shopActions";
 import useDebounce from "../../../common/useDebound";
+import queryString from "querystring";
+import { searchDataProduct } from "../../../actions/home";
 
-function SearchBarMobile({ fillData, placeholder }) {
-  const { Option } = Select;
+const { Option } = Select;
+
+function SearchBarMobile({ placeholder }) {
+  const [value, setValue] = useState("");
   const router = useRouter();
   const dispatch = useDispatch();
+  const { listSearchProducts } = useSelector(
+    (state) => state.home.searchDataProducts
+  );
   const [search, setSearch] = useState("");
   const [showDropdownOptions, setShowDropdownOptions] = useState(false);
-  const globalState = useSelector((state) => state.globalReducer);
-  const deboundValue = useDebounce(search, 300);
+  const debouncedValue = useDebounce(value, 300);
   useEffect(() => {
-    dispatch(setGlobalSearch(deboundValue));
-  }, [deboundValue]);
+    if (debouncedValue) {
+      dispatch(searchDataProduct({ params: { text: debouncedValue } }));
+    }
+  }, [debouncedValue]);
   const renderAutoFillItem = () => {
-    // let product = getProductsByCategory(fillData, globalState.category);
-    // return product.map((item) => ({
-    //   value: item.name,
-    // }));
-  };
-  const onSelectCateory = (value) => {
-    dispatch(setGlobalCategory(value));
-    dispatch(setSubCategory(""));
+    return listSearchProducts?.data?.map((item) => ({
+      value: item.productName,
+      id: item._id,
+    }));
   };
   const openDropdownOption = (value) => {
+    setValue(value);
     setShowDropdownOptions(true);
     setSearch(value);
   };
@@ -38,6 +43,9 @@ function SearchBarMobile({ fillData, placeholder }) {
     setShowDropdownOptions(false);
   };
   const onSelectOption = (value, option) => {
+    router.push(`/product/${option.id}`);
+    console.log("value", value);
+    console.log("option", option);
     setSearch(value);
     closeDropdownOption();
   };

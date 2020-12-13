@@ -15,9 +15,12 @@ function ShopSidebar({ dataCategories }) {
     (state) => state.home.fetchDataCategories
   );
   const { Option } = Select;
-  const onChooseSubCategory = (data) => {
+  const onChooseSubCategory = async (data) => {
+    let currentParam = { ...router.query };
+    currentParam.page ? await delete currentParam.page : null;
+    currentParam.size ? await delete currentParam.size : null;
     if (!data || data === "all") {
-      const currentParam = { ...router.query };
+      currentParam = { ...router.query };
       delete currentParam.category;
       router.push(
         `${router.pathname}?${queryString.stringify(currentParam)}`,
@@ -26,12 +29,13 @@ function ShopSidebar({ dataCategories }) {
       );
       return;
     }
-    const currentParam = { ...router.query, category: data };
+    currentParam = { ...currentParam, category: data };
     router.push(
       `${router.pathname}?${queryString.stringify(currentParam)}`,
       undefined,
       { shallow: true }
     );
+    return;
   };
   const handleChange = (value) => {
     onChooseSubCategory(value);
