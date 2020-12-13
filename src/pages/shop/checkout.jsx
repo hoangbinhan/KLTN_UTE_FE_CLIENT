@@ -149,11 +149,6 @@ export default function checkout() {
                       </Form.Item>
                     </Col>
                     <Col span={24} md={12}>
-                      <Form.Item label="Email" name="email">
-                        <Input placeholder="Please input your email!" />
-                      </Form.Item>
-                    </Col>
-                    <Col span={24} md={12}>
                       <Form.Item
                         label="Phone number"
                         name="phone"

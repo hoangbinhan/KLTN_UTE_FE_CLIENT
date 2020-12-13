@@ -151,6 +151,25 @@ export const deleteCart = ({
   });
 };
 
+export const checkOut = ({
+  params = {},
+  data = {},
+  cbSuccess,
+  cbError,
+} = {}) => {
+  return request({
+    url: `${CONSTANTS.ENDPOINTS.CART}`,
+    method: "POST",
+    cbSuccess,
+    cbError,
+    params,
+    payload: data,
+    LOADING_ACTION: TYPES.CHECKOUT_CART_LOADING,
+    SUCCESS_ACTION: TYPES.CHECKOUT_CART_SUCCESS,
+    ERROR_ACTION: TYPES.CHECKOUT_CART_ERROR,
+  });
+};
+
 export const clearOldDate = () => (dispatch) =>
   dispatch({
     type: TYPES.CLEAR_OLD_DATA,

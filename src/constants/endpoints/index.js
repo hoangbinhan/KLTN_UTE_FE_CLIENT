@@ -7,4 +7,5 @@ export default {
   LOGIN: "/api/client/user/login",
   FORGOT_PASSWORD: "/api/client/user/forgot-password",
   UPDATE_PASSWORD: "/api/client/user/update-password",
+  CHECKOUT: "/api/client/user/checkout",
 };

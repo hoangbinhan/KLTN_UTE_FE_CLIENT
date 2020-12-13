@@ -6,8 +6,10 @@ import "../styles/styles.scss";
 import Loading from "../components/other/Loading";
 import withReduxStore from "../common/withReduxStore";
 import { UserProvider } from "../context/UserContext";
+import { doAxiosRequestIntercept } from "../configs/Interceptors";
 
 const App = ({ Component, pageProps, reduxStore }) => {
+  doAxiosRequestIntercept();
   return (
     <Provider store={reduxStore}>
       <PersistGate loading={<Loading />} persistor={persistor}>
