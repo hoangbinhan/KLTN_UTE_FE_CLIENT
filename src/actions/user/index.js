@@ -158,15 +158,15 @@ export const checkOut = ({
   cbError,
 } = {}) => {
   return request({
-    url: `${CONSTANTS.ENDPOINTS.CART}`,
+    url: `${CONSTANTS.ENDPOINTS.CHECKOUT}`,
     method: "POST",
     cbSuccess,
     cbError,
     params,
     payload: data,
-    LOADING_ACTION: TYPES.CHECKOUT_CART_LOADING,
-    SUCCESS_ACTION: TYPES.CHECKOUT_CART_SUCCESS,
-    ERROR_ACTION: TYPES.CHECKOUT_CART_ERROR,
+    LOADING_ACTION: TYPES.CHECKOUT_LOADING,
+    SUCCESS_ACTION: TYPES.CHECKOUT_SUCCESS,
+    ERROR_ACTION: TYPES.CHECKOUT_ERROR,
   });
 };
 
