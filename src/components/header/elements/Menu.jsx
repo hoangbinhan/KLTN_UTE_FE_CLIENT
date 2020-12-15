@@ -60,12 +60,6 @@ function MenuComponent({ containerType }) {
         </div>
       </Menu.Item>
       <Menu.Item>
-        <div className="item-user-control">
-          <SettingOutlined style={{ marginRight: ".3rem" }} />
-          Change Password
-        </div>
-      </Menu.Item>
-      <Menu.Item>
         <div className="item-user-control" onClick={onLogout}>
           <LogoutOutlined style={{ marginRight: ".3rem" }} />
           Logout
