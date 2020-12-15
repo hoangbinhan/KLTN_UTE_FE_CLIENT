@@ -1,10 +1,17 @@
 // types
-import { TYPES } from "../../constants/actions/user";
+import {
+  TYPES
+} from "../../constants/actions/user";
 // others
 import CONSTANTS from "../../constants";
 import request from "../../utils/request";
 
-export const login = ({ params = {}, data = {}, cbSuccess, cbError } = {}) => {
+export const login = ({
+  params = {},
+  data = {},
+  cbSuccess,
+  cbError
+} = {}) => {
   return request({
     url: CONSTANTS.ENDPOINTS.LOGIN,
     method: "POST",
@@ -170,7 +177,19 @@ export const checkOut = ({
   });
 };
 
+export const cartCheckoutComplete = (data) => (dispatch) => {
+  dispatch({
+    type: TYPES.CART_CHECKOUT_COMPLETE,
+    payload: data
+  })
+}
+
 export const clearOldDate = () => (dispatch) =>
   dispatch({
     type: TYPES.CLEAR_OLD_DATA,
+  });
+
+export const clearOldDataCheckoutComplete = () => (dispatch) =>
+  dispatch({
+    type: TYPES.CLEAR_OLD_DATA_CHECKOUT_COMPLETE,
   });

@@ -20,7 +20,7 @@ import Product from "../../components/product/Product";
 const tree = require("../../addressVN/tree.json");
 import { formatVND } from "../../utils";
 import { UserContext } from "../../context/UserContext";
-import { checkOut } from "../../actions/user";
+import { checkOut, cartCheckoutComplete } from "../../actions/user";
 
 const { Option } = Select;
 
@@ -41,10 +41,10 @@ export default function checkout() {
   const { Panel } = Collapse;
   const router = useRouter();
   const { cart } = useSelector((state) => state.user.getCart);
-  const [paymentMethod, setPaymentMethod] = useState("Direct Bank Transfer");
+  const [paymentMethod, setPaymentMethod] = useState("COD Payment");
   const [district, setDistrict] = useState([]);
+  const [isLoading, setisLoading] = useState(false);
   const [ward, setWard] = useState([]);
-  const [isDisable, setIsDisable] = useState(false);
   const [form] = Form.useForm();
   const infoToken = useContext(UserContext);
   const dispatch = useDispatch();
@@ -109,8 +109,15 @@ export default function checkout() {
             paymentDetail,
             totalDetail,
           },
-          cbSuccess: () => router.push("/shop/checkout-complete"),
-          cbError: () => message.error("Some thing went wrong"),
+          cbSuccess: () => {
+            setisLoading(false);
+            dispatch(cartCheckoutComplete({ ...cart, paymentMethod }));
+            router.push("/shop/checkout-complete");
+          },
+          cbError: () => {
+            setisLoading(false);
+            message.error("Some thing went wrong");
+          },
         })
       );
     }
@@ -214,7 +221,6 @@ export default function checkout() {
                         <Select
                           onChange={handleProvinceOnChange}
                           placeholder="select province/city..."
-                          disabled={isDisable}
                         >
                           {Object.values(tree).map((item) => (
                             <Option key={item.code} value={item.name}>
@@ -238,7 +244,6 @@ export default function checkout() {
                         <Select
                           onChange={handleDistrictOnChange}
                           placeholder="select district..."
-                          disabled={isDisable}
                         >
                           {Object.values(district).map((item) => (
                             <Option key={item.code} value={item.name}>
@@ -262,7 +267,6 @@ export default function checkout() {
                         <Select
                           onChange={handleWardOnChange}
                           placeholder="select ward..."
-                          disabled={isDisable}
                         >
                           {Object.values(ward).map((item) => (
                             <Option key={item.code} value={item.name}>
@@ -359,7 +363,7 @@ export default function checkout() {
                       ghost
                       onChange={onChoosePayment}
                     >
-                      {paymentData.map((item, index) => (
+                      {paymentData.map((item) => (
                         <Panel
                           showArrow={false}
                           header={item.name}
@@ -427,6 +431,8 @@ export default function checkout() {
                 key="submit"
                 htmlType="submit"
                 style={{ marginBottom: 0 }}
+                loading={isLoading}
+                onClick={() => setisLoading(true)}
               >
                 Next Step
               </Button>

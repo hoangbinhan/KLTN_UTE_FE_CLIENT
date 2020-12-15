@@ -1,15 +1,23 @@
-import { Form, Input, Button, Checkbox, Row, Col, Select } from "antd";
-import classNames from "classnames";
-import Slider from "react-slick";
-import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
-import Link from "next/link";
-
+import { useContext, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import Moment from "moment";
+import { UserContext } from "../../context/UserContext";
 import LayoutOne from "../../components/layouts/LayoutOne";
 import Container from "../../components/other/Container";
-import { formatCurrency } from "../../common/utils";
+import { formatVND } from "../../utils";
+import { clearOldDataCheckoutComplete } from "../../actions/user";
 
 export default function checkoutComplete() {
+  const dispatch = useDispatch();
+  const { infoCheckoutComplete } = useSelector(
+    (state) => state.user.cartCheckoutComplete
+  );
+  const infoToken = useContext(UserContext);
+  useEffect(() => {
+    return () => {
+      dispatch(clearOldDataCheckoutComplete());
+    };
+  }, []);
   return (
     <LayoutOne title="Checkout completed">
       <Container>
@@ -18,20 +26,20 @@ export default function checkoutComplete() {
             <h3>Congratulation! You’ve completed payment.</h3>
             <div className="checkout-complete-summary__table">
               <div className="checkout-complete-summary__table-item">
-                <h5>Order Number</h5>
-                <p>120</p>
+                <h5>Customer</h5>
+                <p>{infoToken?.email}</p>
               </div>
               <div className="checkout-complete-summary__table-item">
                 <h5>Date</h5>
-                <p>12 August 2020</p>
+                <p>{Moment().format("DD/MM/YYYY")}</p>
               </div>
               <div className="checkout-complete-summary__table-item">
                 <h5>Total</h5>
-                <p>{formatCurrency(200)}</p>
+                <p>{formatVND(infoCheckoutComplete?.totalPrice, "VND")}</p>
               </div>
               <div className="checkout-complete-summary__table-item">
                 <h5>Payment methods</h5>
-                <p>Check payment</p>
+                <p>{infoCheckoutComplete?.paymentMethod}</p>
               </div>
             </div>
           </div>
@@ -44,15 +52,22 @@ export default function checkoutComplete() {
                   <th>Price</th>
                 </tr>
               </thead>
-
               <tbody>
-                <tr>
-                  <td>Stay-Matte Sheer Pressed x 1</td>
-                  <td className="bold">{formatCurrency(100)}</td>
-                </tr>
+                {infoCheckoutComplete?.cart?.map((record) => (
+                  <tr key={record.item._id}>
+                    <td>
+                      {record.item.productName} x {record.quantity}
+                    </td>
+                    <td className="bold">
+                      {formatVND(record.item.price * record.quantity, "VND")}
+                    </td>
+                  </tr>
+                ))}
                 <tr>
                   <td>Subtotal</td>
-                  <td className="bold">{formatCurrency(100)}</td>
+                  <td className="bold">
+                    {formatVND(infoCheckoutComplete?.totalPrice, "VND")}
+                  </td>
                 </tr>
                 <tr>
                   <td>Shipping</td>
@@ -60,11 +75,13 @@ export default function checkoutComplete() {
                 </tr>
                 <tr>
                   <td>Payment Method</td>
-                  <td>Check Payments</td>
+                  <td>{infoCheckoutComplete?.paymentMethod}</td>
                 </tr>
                 <tr>
                   <td>Total</td>
-                  <td className="bold">{formatCurrency(100)}</td>
+                  <td className="bold">
+                    {formatVND(infoCheckoutComplete?.totalPrice, "VND")}
+                  </td>
                 </tr>
               </tbody>
             </table>
