@@ -151,7 +151,38 @@ export const deleteCart = ({
   });
 };
 
+export const checkOut = ({
+  params = {},
+  data = {},
+  cbSuccess,
+  cbError,
+} = {}) => {
+  return request({
+    url: `${CONSTANTS.ENDPOINTS.CHECKOUT}`,
+    method: "POST",
+    cbSuccess,
+    cbError,
+    params,
+    payload: data,
+    LOADING_ACTION: TYPES.CHECKOUT_LOADING,
+    SUCCESS_ACTION: TYPES.CHECKOUT_SUCCESS,
+    ERROR_ACTION: TYPES.CHECKOUT_ERROR,
+  });
+};
+
+export const cartCheckoutComplete = (data) => (dispatch) => {
+  dispatch({
+    type: TYPES.CART_CHECKOUT_COMPLETE,
+    payload: data,
+  });
+};
+
 export const clearOldDate = () => (dispatch) =>
   dispatch({
     type: TYPES.CLEAR_OLD_DATA,
+  });
+
+export const clearOldDataCheckoutComplete = () => (dispatch) =>
+  dispatch({
+    type: TYPES.CLEAR_OLD_DATA_CHECKOUT_COMPLETE,
   });

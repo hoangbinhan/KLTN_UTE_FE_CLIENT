@@ -7,17 +7,20 @@ import {
   Col,
   Select,
   Collapse,
+  message,
 } from "antd";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useContext } from "react";
 import Slider from "react-slick";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 import LayoutOne from "../../components/layouts/LayoutOne";
 import Container from "../../components/other/Container";
 import Product from "../../components/product/Product";
 const tree = require("../../addressVN/tree.json");
 import { formatVND } from "../../utils";
+import { UserContext } from "../../context/UserContext";
+import { checkOut, cartCheckoutComplete } from "../../actions/user";
 
 const { Option } = Select;
 
@@ -38,11 +41,13 @@ export default function checkout() {
   const { Panel } = Collapse;
   const router = useRouter();
   const { cart } = useSelector((state) => state.user.getCart);
-  const [paymentMethod, setPaymentMethod] = useState("Direct Bank Transfer");
+  const [paymentMethod, setPaymentMethod] = useState("COD Payment");
   const [district, setDistrict] = useState([]);
+  const [isLoading, setisLoading] = useState(false);
   const [ward, setWard] = useState([]);
-  const [isDisable, setIsDisable] = useState(false);
   const [form] = Form.useForm();
+  const infoToken = useContext(UserContext);
+  const dispatch = useDispatch();
 
   const settings = {
     arrows: false,
@@ -73,9 +78,49 @@ export default function checkout() {
     ],
   };
   const onFinish = (values) => {
-    console.log("paymentMethod", paymentMethod);
-    console.log("values", values);
-    // router.push("/shop/checkout-complete");
+    if (infoToken?.email && cart) {
+      const customerDetail = {
+        phoneNumber: values.phone,
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: infoToken.email,
+        address: values.address,
+      };
+      const productsInvoice = cart?.cart;
+      const paymentDetail = {
+        paymentMethod: paymentMethod,
+        provinceCity: values.province,
+        district: values.district,
+        ward: values.ward,
+        address: values.address,
+      };
+      const totalDetail = {
+        note: values.note,
+        unitOrder: cart.totalItem,
+        subTotal: cart.totalPrice,
+        shippingFee: "FREE",
+        total: cart.totalPrice,
+      };
+      dispatch(
+        checkOut({
+          data: {
+            customerDetail,
+            productsInvoice,
+            paymentDetail,
+            totalDetail,
+          },
+          cbSuccess: () => {
+            setisLoading(false);
+            dispatch(cartCheckoutComplete({ ...cart, paymentMethod }));
+            router.push("/shop/checkout-complete");
+          },
+          cbError: () => {
+            setisLoading(false);
+            message.error("Some thing went wrong");
+          },
+        })
+      );
+    }
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -149,11 +194,6 @@ export default function checkout() {
                       </Form.Item>
                     </Col>
                     <Col span={24} md={12}>
-                      <Form.Item label="Email" name="email">
-                        <Input placeholder="Please input your email!" />
-                      </Form.Item>
-                    </Col>
-                    <Col span={24} md={12}>
                       <Form.Item
                         label="Phone number"
                         name="phone"
@@ -168,11 +208,19 @@ export default function checkout() {
                       </Form.Item>
                     </Col>
                     <Col span={24} md={12}>
-                      <Form.Item label="Province" name="province">
+                      <Form.Item
+                        label="Province"
+                        name="province"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please select your phone province !",
+                          },
+                        ]}
+                      >
                         <Select
                           onChange={handleProvinceOnChange}
                           placeholder="select province/city..."
-                          disabled={isDisable}
                         >
                           {Object.values(tree).map((item) => (
                             <Option key={item.code} value={item.name}>
@@ -183,11 +231,19 @@ export default function checkout() {
                       </Form.Item>
                     </Col>
                     <Col span={24} md={12}>
-                      <Form.Item label="District" name="district">
+                      <Form.Item
+                        label="District"
+                        name="district"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please select your phone district !",
+                          },
+                        ]}
+                      >
                         <Select
                           onChange={handleDistrictOnChange}
                           placeholder="select district..."
-                          disabled={isDisable}
                         >
                           {Object.values(district).map((item) => (
                             <Option key={item.code} value={item.name}>
@@ -198,11 +254,19 @@ export default function checkout() {
                       </Form.Item>
                     </Col>
                     <Col span={24} md={12}>
-                      <Form.Item label="Ward" name="ward">
+                      <Form.Item
+                        label="Ward"
+                        name="ward"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please select your phone ward !",
+                          },
+                        ]}
+                      >
                         <Select
                           onChange={handleWardOnChange}
                           placeholder="select ward..."
-                          disabled={isDisable}
                         >
                           {Object.values(ward).map((item) => (
                             <Option key={item.code} value={item.name}>
@@ -223,6 +287,11 @@ export default function checkout() {
                           },
                         ]}
                       >
+                        <Input />
+                      </Form.Item>
+                    </Col>
+                    <Col span={24} md={12}>
+                      <Form.Item label="note" name="Note">
                         <Input />
                       </Form.Item>
                     </Col>
@@ -294,7 +363,7 @@ export default function checkout() {
                       ghost
                       onChange={onChoosePayment}
                     >
-                      {paymentData.map((item, index) => (
+                      {paymentData.map((item) => (
                         <Panel
                           showArrow={false}
                           header={item.name}
@@ -362,6 +431,8 @@ export default function checkout() {
                 key="submit"
                 htmlType="submit"
                 style={{ marginBottom: 0 }}
+                loading={isLoading}
+                onClick={() => setisLoading(true)}
               >
                 Next Step
               </Button>

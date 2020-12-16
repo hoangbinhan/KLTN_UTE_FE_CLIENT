@@ -1,45 +1,43 @@
-import { useContext, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import Moment from "moment";
-import { UserContext } from "../../context/UserContext";
+import React, { useContext } from "react";
+import { useRouter } from "next/router";
 import LayoutOne from "../../components/layouts/LayoutOne";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getDetailOrder } from "../../actions/information";
+import { UserContext } from "../../context/UserContext";
 import Container from "../../components/other/Container";
 import { formatVND } from "../../utils";
-import { clearOldDataCheckoutComplete } from "../../actions/user";
 
-export default function checkoutComplete() {
-  const dispatch = useDispatch();
-  const { infoCheckoutComplete } = useSelector(
-    (state) => state.user.cartCheckoutComplete
-  );
+const detailOrder = () => {
   const infoToken = useContext(UserContext);
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const { slug } = router.query;
+  const { detail } = useSelector((state) => state.information.getDetailOrder);
   useEffect(() => {
-    return () => {
-      dispatch(clearOldDataCheckoutComplete());
-    };
-  }, []);
+    dispatch(getDetailOrder({ params: { id: slug } }));
+  }, [dispatch, slug]);
   return (
     <LayoutOne title="Checkout completed">
       <Container>
         <div className="checkout-complete">
           <div className="checkout-complete-summary">
-            <h3>Congratulation! You’ve completed payment.</h3>
-            <div className="checkout-complete-summary__table">
+            <h3>Detail Invoice</h3>
+            <div
+              className="checkout-complete-summary__table"
+              style={{ gridTemplateColumns: "1fr 1fr 1fr" }}
+            >
               <div className="checkout-complete-summary__table-item">
                 <h5>Customer</h5>
                 <p>{infoToken?.email}</p>
               </div>
               <div className="checkout-complete-summary__table-item">
-                <h5>Date</h5>
-                <p>{Moment().format("DD/MM/YYYY")}</p>
-              </div>
-              <div className="checkout-complete-summary__table-item">
                 <h5>Total</h5>
-                <p>{formatVND(infoCheckoutComplete?.totalPrice, "VND")}</p>
+                <p>{formatVND(detail?.data?.totalDetail.total, "VND")}</p>
               </div>
               <div className="checkout-complete-summary__table-item">
                 <h5>Payment methods</h5>
-                <p>{infoCheckoutComplete?.paymentMethod}</p>
+                <p>{detail?.data?.paymentDetail.paymentMethod}</p>
               </div>
             </div>
           </div>
@@ -53,7 +51,7 @@ export default function checkoutComplete() {
                 </tr>
               </thead>
               <tbody>
-                {infoCheckoutComplete?.cart?.map((record) => (
+                {detail?.data?.productsInvoice?.map((record) => (
                   <tr key={record.item._id}>
                     <td>
                       {record.item.productName} x {record.quantity}
@@ -66,7 +64,7 @@ export default function checkoutComplete() {
                 <tr>
                   <td>Subtotal</td>
                   <td className="bold">
-                    {formatVND(infoCheckoutComplete?.totalPrice, "VND")}
+                    {formatVND(detail?.data?.totalDetail.total, "VND")}
                   </td>
                 </tr>
                 <tr>
@@ -75,12 +73,12 @@ export default function checkoutComplete() {
                 </tr>
                 <tr>
                   <td>Payment Method</td>
-                  <td>{infoCheckoutComplete?.paymentMethod}</td>
+                  <td>{detail?.data?.paymentDetail.paymentMethod}</td>
                 </tr>
                 <tr>
                   <td>Total</td>
                   <td className="bold">
-                    {formatVND(infoCheckoutComplete?.totalPrice, "VND")}
+                    {formatVND(detail?.data?.totalDetail.total, "VND")}
                   </td>
                 </tr>
               </tbody>
@@ -90,4 +88,6 @@ export default function checkoutComplete() {
       </Container>
     </LayoutOne>
   );
-}
+};
+
+export default detailOrder;
