@@ -79,6 +79,7 @@ export default function checkout() {
   };
   const onFinish = (values) => {
     if (infoToken?.email && cart) {
+      let productsInvoice = [];
       const customerDetail = {
         phoneNumber: values.phone,
         firstName: values.firstName,
@@ -86,7 +87,14 @@ export default function checkout() {
         email: infoToken.email,
         address: values.address,
       };
-      const productsInvoice = cart?.cart;
+      for (let i = 0; i < cart?.cart.length; i++) {
+        let result = {
+          ...cart?.cart[i].item,
+          quantity: cart?.cart[i].quantity,
+        };
+        productsInvoice.push(result);
+      }
+
       const paymentDetail = {
         paymentMethod: paymentMethod,
         provinceCity: values.province,
