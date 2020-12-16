@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form, Input, Button, message } from "antd";
 import { useDispatch } from "react-redux";
 import { changePassword } from "../../../actions/information";
@@ -10,6 +10,7 @@ const layout = {
 
 const ChangePassword = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [form] = Form.useForm();
   const dispatch = useDispatch();
   const onFinish = (values) => {
     setIsLoading(true);
@@ -19,6 +20,7 @@ const ChangePassword = () => {
           password: values.password,
         },
         cbSuccess: () => {
+          form.resetFields();
           message.success("Change password successfully!");
           setIsLoading(false);
         },

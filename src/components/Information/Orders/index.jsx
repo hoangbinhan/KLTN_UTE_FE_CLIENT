@@ -6,13 +6,15 @@ import { formatVND } from "../../../utils";
 import "./style.scss";
 
 const Order = () => {
-  const { listOrders } = useSelector((state) => state.information.getOrders);
+  const { listOrders, isLoading } = useSelector(
+    (state) => state.information.getOrders
+  );
   return (
     <Row justify="center">
       <Col xs={22} sm={18} md={18} lg={16} xl={16} xxl={16}>
         <List
           className="demo-loadmore-list"
-          // loading={initLoading}
+          loading={isLoading}
           itemLayout="horizontal"
           // loadMore={loadMore}
           dataSource={listOrders?.data}

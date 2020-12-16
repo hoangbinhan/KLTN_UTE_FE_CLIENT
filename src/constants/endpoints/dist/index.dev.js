@@ -16,6 +16,7 @@ var _default = {
   CHECKOUT: "/api/client/user/checkout",
   GET_ORDERS: "/api/client/user/orders",
   INFORMATION: "/api/client/user/information",
-  CHANGE_PASSWORD: "/api/client/user/change-password"
+  CHANGE_PASSWORD: "/api/client/user/change-password",
+  GET_DETAIL_ORDERS: "/api/client/user/orders/:id"
 };
 exports["default"] = _default;
