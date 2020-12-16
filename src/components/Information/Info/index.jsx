@@ -42,25 +42,28 @@ const Info = () => {
     );
   };
   return (
-    <Form {...layout} onFinish={onFinish} form={form}>
-      <Form.Item name="email" label="Email">
-        <Input disabled />
-      </Form.Item>
-      <Form.Item name="name" label="Name">
-        <Input />
-      </Form.Item>
-      <Form.Item name="phoneNumber" label="Phone Number">
-        <Input />
-      </Form.Item>
-      <Form.Item name="address" label="Address">
-        <Input.TextArea />
-      </Form.Item>
-      <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-        <Button type="primary" htmlType="submit" loading={isLoading}>
-          Update
-        </Button>
-      </Form.Item>
-    </Form>
+    <>
+      <h1 style={{ textAlign: "center", marginBottom: "2rem" }}>Information</h1>
+      <Form {...layout} onFinish={onFinish} form={form}>
+        <Form.Item name="email" label="Email">
+          <Input disabled />
+        </Form.Item>
+        <Form.Item name="name" label="Name">
+          <Input />
+        </Form.Item>
+        <Form.Item name="phoneNumber" label="Phone Number">
+          <Input />
+        </Form.Item>
+        <Form.Item name="address" label="Address">
+          <Input.TextArea />
+        </Form.Item>
+        <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
+          <Button type="primary" htmlType="submit" loading={isLoading}>
+            Update
+          </Button>
+        </Form.Item>
+      </Form>
+    </>
   );
 };
 

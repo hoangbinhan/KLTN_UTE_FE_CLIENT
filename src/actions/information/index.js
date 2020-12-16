@@ -23,6 +23,25 @@ export const getOrders = ({
   });
 };
 
+export const getDetailOrder = ({
+  params = {},
+  data = {},
+  cbSuccess,
+  cbError,
+} = {}) => {
+  return request({
+    url: `${CONSTANTS.ENDPOINTS.GET_DETAIL_ORDERS}`,
+    method: "GET",
+    cbSuccess,
+    cbError,
+    params,
+    payload: data,
+    LOADING_ACTION: TYPES.GET_DETAIL_ORDER_LOADING,
+    SUCCESS_ACTION: TYPES.GET_DETAIL_ORDER_SUCCESS,
+    ERROR_ACTION: TYPES.GET_DETAIL_ORDER_ERROR,
+  });
+};
+
 export const getInformation = ({
   params = {},
   data = {},

@@ -32,40 +32,45 @@ const ChangePassword = () => {
     );
   };
   return (
-    <Form {...layout} onFinish={onFinish} form={form}>
-      <Form.Item label="Password" name="password">
-        <Input.Password />
-      </Form.Item>
-      <Form.Item
-        label="Confirm Password"
-        name="confirmPassword"
-        dependencies={["password"]}
-        hasFeedback
-        rules={[
-          {
-            required: true,
-            message: "Please confirm your password!",
-          },
-          ({ getFieldValue }) => ({
-            validator(rule, value) {
-              if (!value || getFieldValue("password") === value) {
-                return Promise.resolve();
-              }
-              return Promise.reject(
-                "The two passwords that you entered do not match!"
-              );
+    <>
+      <h1 style={{ textAlign: "center", marginBottom: "2rem" }}>
+        Change Password
+      </h1>
+      <Form {...layout} onFinish={onFinish} form={form}>
+        <Form.Item label="Password" name="password">
+          <Input.Password />
+        </Form.Item>
+        <Form.Item
+          label="Confirm Password"
+          name="confirmPassword"
+          dependencies={["password"]}
+          hasFeedback
+          rules={[
+            {
+              required: true,
+              message: "Please confirm your password!",
             },
-          }),
-        ]}
-      >
-        <Input.Password />
-      </Form.Item>
-      <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-        <Button type="primary" htmlType="submit" loading={isLoading}>
-          Update
-        </Button>
-      </Form.Item>
-    </Form>
+            ({ getFieldValue }) => ({
+              validator(rule, value) {
+                if (!value || getFieldValue("password") === value) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(
+                  "The two passwords that you entered do not match!"
+                );
+              },
+            }),
+          ]}
+        >
+          <Input.Password />
+        </Form.Item>
+        <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
+          <Button type="primary" htmlType="submit" loading={isLoading}>
+            Update
+          </Button>
+        </Form.Item>
+      </Form>
+    </>
   );
 };
 
