@@ -17,10 +17,10 @@ function Footer({ containerType }) {
                 <Link href="#">
                   <a>DA STORE</a>
                 </Link>
-                <p>7176 Blue Spring Lane Santa Monica, CA 90403</p>
+                <p>UTE, 01 Vo Van Ngan</p>
                 <ul>
-                  <li>hi.avitex@gmail.com</li>
-                  <li>+01 123 456 888</li>
+                  <li>dastore@gmail.com</li>
+                  <li>0964734721</li>
                 </ul>
               </div>
             </Col>
@@ -31,18 +31,6 @@ function Footer({ containerType }) {
                     <h5 className="footer-title">Information</h5>
                     <ul>
                       {links.information.map((item, index) => (
-                        <li key={index}>
-                          <Link href="#">
-                            <a>{item.name}</a>
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </Col>
-                  <Col className="gutter-row" span={12}>
-                    <h5 className="footer-title">My account</h5>
-                    <ul>
-                      {links.account.map((item, index) => (
                         <li key={index}>
                           <Link href="#">
                             <a>{item.name}</a>
@@ -62,12 +50,6 @@ function Footer({ containerType }) {
                   purchase
                 </p>
                 <FooterSubcribe url="https://jster.us7.list-manage.com/subscribe/post?u=ed40c0084a0c5ba31b3365d65&id=ec6f32bf5e" />
-                <img
-                  src={
-                    process.env.PUBLIC_URL + "/assets/images/footer/payment.png"
-                  }
-                  alt="Payment methods"
-                />
               </div>
             </Col>
           </Row>

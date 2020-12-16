@@ -1,6 +1,7 @@
 import { Tabs } from "antd";
 
 import Container from "../../other/Container";
+import ProductDetailComment from "../elements/ProductDetailComment";
 import ProductDetailReviewItem from "../elements/ProductDetailReviewItem";
 
 const { TabPane } = Tabs;
@@ -52,40 +53,7 @@ export default function ProductDetailTabOne() {
             <div className="product-detail-tab-item -review">
               <ProductDetailReviewItem />
               <ProductDetailReviewItem />
-            </div>
-          </TabPane>
-          <TabPane tab="Additional information" key="3">
-            <div className="product-detail-tab-item -info">
-              <table>
-                <tr>
-                  <td>Outer Shell</td>
-                  <td>100% polyester</td>
-                </tr>
-                <tr>
-                  <td>Lining</td>
-                  <td>100% polyurethane</td>
-                </tr>
-                <tr>
-                  <td>Size</td>
-                  <td>S, M, L, XL</td>
-                </tr>
-                <tr>
-                  <td>Colors</td>
-                  <td>Grey, Red, Blue, Black</td>
-                </tr>
-                <tr>
-                  <td>Care</td>
-                  <td>
-                    <img
-                      src={
-                        process.env.PUBLIC_URL +
-                        "/assets/images/shop/shop-detail/care-icons.png"
-                      }
-                      alt="Care icon"
-                    />
-                  </td>
-                </tr>
-              </table>
+              <ProductDetailComment />
             </div>
           </TabPane>
         </Tabs>
