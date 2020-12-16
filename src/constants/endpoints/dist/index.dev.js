@@ -8,7 +8,14 @@ var _default = {
   CATEGORIES: "api/client/home/categories",
   PRODUCTS: "api/client/home/products",
   DETAIL_PRODUCT: "/api/client/product",
-  ADD_TO_CART: "/api/client/user/add-to-cart",
-  GET_CART: '/api/client/user/get-cart'
+  CART: "/api/client/user/cart",
+  REGISTER: "/api/client/user/register",
+  LOGIN: "/api/client/user/login",
+  FORGOT_PASSWORD: "/api/client/user/forgot-password",
+  UPDATE_PASSWORD: "/api/client/user/update-password",
+  CHECKOUT: "/api/client/user/checkout",
+  GET_ORDERS: "/api/client/user/orders",
+  INFORMATION: "/api/client/user/information",
+  CHANGE_PASSWORD: "/api/client/user/change-password"
 };
 exports["default"] = _default;

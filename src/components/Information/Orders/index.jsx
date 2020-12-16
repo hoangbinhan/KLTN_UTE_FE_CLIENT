@@ -17,7 +17,6 @@ const Order = () => {
           // loadMore={loadMore}
           dataSource={listOrders?.data}
           renderItem={(item) => {
-            console.log(item);
             return (
               <List.Item actions={[<a key="list-loadmore-more">View</a>]}>
                 <List.Item.Meta

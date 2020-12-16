@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { Tabs } from "antd";
 import Orders from "./Orders";
+import Infor from "./Info";
+import ChangePassword from "./ChangePassword";
 import { useDispatch } from "react-redux";
 import { getOrders, getInformation } from "../../actions/information";
 
@@ -18,10 +20,10 @@ const InformationTabs = () => {
         <Orders />
       </TabPane>
       <TabPane tab="Tab 2" key="2">
-        Information
+        <Infor />
       </TabPane>
       <TabPane tab="Tab 3" key="3">
-        Change Password
+        <ChangePassword />
       </TabPane>
     </Tabs>
   );
