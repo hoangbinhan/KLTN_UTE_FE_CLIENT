@@ -13,7 +13,9 @@ export default function pid() {
     (state) => state.product.fetchDetailProduct
   );
   useEffect(() => {
-    dispatch(fetchDetailProduct({ params: { id: slug } }));
+    if (slug) {
+      dispatch(fetchDetailProduct({ params: { id: slug } }));
+    }
   }, [dispatch, slug]);
   return (
     <LayoutOne title="product" clearSpaceTop>

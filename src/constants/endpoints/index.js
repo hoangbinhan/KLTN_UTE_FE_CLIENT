@@ -12,4 +12,5 @@ export default {
   INFORMATION: "/api/client/user/information",
   CHANGE_PASSWORD: "/api/client/user/change-password",
   GET_DETAIL_ORDERS: "/api/client/user/detail-order",
+  RATING: "/api/client/user/rating",
 };

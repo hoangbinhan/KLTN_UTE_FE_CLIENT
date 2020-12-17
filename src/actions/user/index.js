@@ -170,6 +170,20 @@ export const checkOut = ({
   });
 };
 
+export const rating = ({ params = {}, data = {}, cbSuccess, cbError } = {}) => {
+  return request({
+    url: `${CONSTANTS.ENDPOINTS.RATING}`,
+    method: "POST",
+    cbSuccess,
+    cbError,
+    params,
+    payload: data,
+    LOADING_ACTION: TYPES.RATING_LOADING,
+    SUCCESS_ACTION: TYPES.RATING_SUCCESS,
+    ERROR_ACTION: TYPES.RATING_ERROR,
+  });
+};
+
 export const cartCheckoutComplete = (data) => (dispatch) => {
   dispatch({
     type: TYPES.CART_CHECKOUT_COMPLETE,
