@@ -117,10 +117,14 @@ export default function checkout() {
             paymentDetail,
             totalDetail,
           },
-          cbSuccess: () => {
+          cbSuccess: (res) => {
             setisLoading(false);
-            dispatch(cartCheckoutComplete({ ...cart, paymentMethod }));
-            router.push("/shop/checkout-complete");
+            if (res.payload?.data?.urlQrcode) {
+              document.location.href = res.payload?.data?.urlQrcode;
+            } else {
+              dispatch(cartCheckoutComplete({ ...cart, paymentMethod }));
+              router.push("/shop/checkout-complete");
+            }
           },
           cbError: () => {
             setisLoading(false);
