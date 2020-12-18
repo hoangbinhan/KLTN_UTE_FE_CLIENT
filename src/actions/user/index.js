@@ -1,10 +1,17 @@
 // types
-import { TYPES } from "../../constants/actions/user";
+import {
+  TYPES
+} from "../../constants/actions/user";
 // others
 import CONSTANTS from "../../constants";
 import request from "../../utils/request";
 
-export const login = ({ params = {}, data = {}, cbSuccess, cbError } = {}) => {
+export const login = ({
+  params = {},
+  data = {},
+  cbSuccess,
+  cbError
+} = {}) => {
   return request({
     url: CONSTANTS.ENDPOINTS.LOGIN,
     method: "POST",
@@ -15,6 +22,25 @@ export const login = ({ params = {}, data = {}, cbSuccess, cbError } = {}) => {
     LOADING_ACTION: TYPES.LOGIN_LOADING,
     SUCCESS_ACTION: TYPES.LOGIN_SUCCESS,
     ERROR_ACTION: TYPES.LOGIN_ERROR,
+  });
+};
+
+export const loginWithThirdParty = ({
+  params = {},
+  data = {},
+  cbSuccess,
+  cbError
+} = {}) => {
+  return request({
+    url: CONSTANTS.ENDPOINTS.LOGIN_WITH_THIRD_PARTY,
+    method: "POST",
+    cbSuccess,
+    cbError,
+    params,
+    payload: data,
+    LOADING_ACTION: TYPES.LOGIN_WITH_THIRD_PARTY_LOADING,
+    SUCCESS_ACTION: TYPES.LOGIN_WITH_THIRD_PARTY_SUCCESS,
+    ERROR_ACTION: TYPES.LOGIN_WITH_THIRD_PARTY_ERROR,
   });
 };
 
@@ -170,7 +196,12 @@ export const checkOut = ({
   });
 };
 
-export const rating = ({ params = {}, data = {}, cbSuccess, cbError } = {}) => {
+export const rating = ({
+  params = {},
+  data = {},
+  cbSuccess,
+  cbError
+} = {}) => {
   return request({
     url: `${CONSTANTS.ENDPOINTS.RATING}`,
     method: "POST",

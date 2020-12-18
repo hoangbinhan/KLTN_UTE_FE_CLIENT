@@ -57,7 +57,7 @@ function Footer({ containerType }) {
       </div>
       <div className="footer-bottom">
         <Container type={containerType}>
-          <p>Copyright © 2020 Avitex Inc. All rights reserved</p>
+          <p>Copyright © 2020 UTE</p>
         </Container>
       </div>
     </div>

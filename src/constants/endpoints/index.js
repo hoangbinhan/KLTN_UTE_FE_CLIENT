@@ -5,6 +5,7 @@ export default {
   CART: "/api/client/user/cart",
   REGISTER: "/api/client/user/register",
   LOGIN: "/api/client/user/login",
+  LOGIN_WITH_THIRD_PARTY: "/api/client/user/register-with-third-party",
   FORGOT_PASSWORD: "/api/client/user/forgot-password",
   UPDATE_PASSWORD: "/api/client/user/update-password",
   CHECKOUT: "/api/client/user/checkout",
