@@ -16,13 +16,13 @@ const InformationTabs = () => {
   }, [dispatch]);
   return (
     <Tabs defaultActiveKey="1">
-      <TabPane tab="Tab 1" key="1">
+      <TabPane tab="Invoices" key="1">
         <Orders />
       </TabPane>
-      <TabPane tab="Tab 2" key="2">
+      <TabPane tab="Information" key="2">
         <Infor />
       </TabPane>
-      <TabPane tab="Tab 3" key="3">
+      <TabPane tab="Change Password" key="3">
         <ChangePassword />
       </TabPane>
     </Tabs>
