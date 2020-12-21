@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.clearOldDataCheckoutComplete = exports.clearOldDate = exports.cartCheckoutComplete = exports.rating = exports.checkOut = exports.deleteCart = exports.updateCart = exports.getCart = exports.addToCart = exports.updatePassword = exports.forgotPassword = exports.register = exports.loginWithThirdParty = exports.login = void 0;
+exports.clearOldDataCheckoutComplete = exports.clearOldDate = exports.cartCheckoutComplete = exports.cancelInvoice = exports.rating = exports.checkOut = exports.deleteCart = exports.updateCart = exports.getCart = exports.addToCart = exports.updatePassword = exports.forgotPassword = exports.register = exports.loginWithThirdParty = exports.login = void 0;
 
 var _user = require("../../constants/actions/user");
 
@@ -278,6 +278,30 @@ var rating = function rating() {
 };
 
 exports.rating = rating;
+
+var cancelInvoice = function cancelInvoice() {
+  var _ref12 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+      _ref12$params = _ref12.params,
+      params = _ref12$params === void 0 ? {} : _ref12$params,
+      _ref12$data = _ref12.data,
+      data = _ref12$data === void 0 ? {} : _ref12$data,
+      cbSuccess = _ref12.cbSuccess,
+      cbError = _ref12.cbError;
+
+  return (0, _request["default"])({
+    url: "".concat(_constants["default"].ENDPOINTS.CANCEL_INVOICE),
+    method: "POST",
+    cbSuccess: cbSuccess,
+    cbError: cbError,
+    params: params,
+    payload: data,
+    LOADING_ACTION: _user.TYPES.CANCEL_INVOICE_LOADING,
+    SUCCESS_ACTION: _user.TYPES.CANCEL_INVOICE_SUCCESS,
+    ERROR_ACTION: _user.TYPES.CANCEL_INVOICE_ERROR
+  });
+};
+
+exports.cancelInvoice = cancelInvoice;
 
 var cartCheckoutComplete = function cartCheckoutComplete(data) {
   return function (dispatch) {

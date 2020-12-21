@@ -215,6 +215,25 @@ export const rating = ({
   });
 };
 
+export const cancelInvoice = ({
+  params = {},
+  data = {},
+  cbSuccess,
+  cbError
+} = {}) => {
+  return request({
+    url: `${CONSTANTS.ENDPOINTS.CANCEL_INVOICE}`,
+    method: "POST",
+    cbSuccess,
+    cbError,
+    params,
+    payload: data,
+    LOADING_ACTION: TYPES.CANCEL_INVOICE_LOADING,
+    SUCCESS_ACTION: TYPES.CANCEL_INVOICE_SUCCESS,
+    ERROR_ACTION: TYPES.CANCEL_INVOICE_ERROR,
+  });
+};
+
 export const cartCheckoutComplete = (data) => (dispatch) => {
   dispatch({
     type: TYPES.CART_CHECKOUT_COMPLETE,
