@@ -109,6 +109,7 @@ export default function checkout() {
         shippingFee: "FREE",
         total: cart.totalPrice,
       };
+      setisLoading(true);
       dispatch(
         checkOut({
           data: {
@@ -117,10 +118,14 @@ export default function checkout() {
             paymentDetail,
             totalDetail,
           },
-          cbSuccess: () => {
+          cbSuccess: (res) => {
             setisLoading(false);
-            dispatch(cartCheckoutComplete({ ...cart, paymentMethod }));
-            router.push("/shop/checkout-complete");
+            if (res.payload?.data?.urlQrcode) {
+              document.location.href = res.payload?.data?.urlQrcode;
+            } else {
+              dispatch(cartCheckoutComplete({ ...cart, paymentMethod }));
+              router.push("/shop/checkout-complete");
+            }
           },
           cbError: () => {
             setisLoading(false);
@@ -440,7 +445,6 @@ export default function checkout() {
                 htmlType="submit"
                 style={{ marginBottom: 0 }}
                 loading={isLoading}
-                onClick={() => setisLoading(true)}
               >
                 Next Step
               </Button>

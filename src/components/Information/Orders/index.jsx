@@ -46,6 +46,16 @@ const Order = () => {
                       "DD/MM/YYYY HH:mm"
                     )}
                   />
+                  <div>
+                    {item.momoUrl && (
+                      <div
+                        className="url-momo"
+                        onClick={() => (document.location.href = item.momoUrl)}
+                      >
+                        link checkout momo
+                      </div>
+                    )}
+                  </div>
                   <div style={{ marginRight: "2rem" }}>
                     Total: {formatVND(item.total, "VND")}
                   </div>

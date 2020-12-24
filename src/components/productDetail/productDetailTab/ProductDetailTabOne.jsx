@@ -1,11 +1,29 @@
 import { Tabs } from "antd";
-
+import { useRouter } from "next/router";
+import { useContext, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchDetailProduct } from "../../../actions/product";
+import { UserContext } from "../../../context/UserContext";
 import Container from "../../other/Container";
+import ProductDetailComment from "../elements/ProductDetailComment";
 import ProductDetailReviewItem from "../elements/ProductDetailReviewItem";
 
 const { TabPane } = Tabs;
 
 export default function ProductDetailTabOne() {
+  const infoToken = useContext(UserContext);
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const { slug } = router.query;
+  const { detailProduct } = useSelector(
+    (state) => state.product.fetchDetailProduct
+  );
+  const { isSuccess } = useSelector((state) => state.user.rating);
+  useEffect(() => {
+    if (slug) {
+      dispatch(fetchDetailProduct({ params: { id: slug } }));
+    }
+  }, [dispatch, slug, isSuccess]);
   return (
     <div className="product-detail-tab-one">
       <Container>
@@ -48,44 +66,15 @@ export default function ProductDetailTabOne() {
               </p>
             </div>
           </TabPane>
-          <TabPane tab="Customer Reviews(5)" key="2">
+          <TabPane
+            tab={`Customer Reviews(${detailProduct?.comment?.length})`}
+            key="2"
+          >
             <div className="product-detail-tab-item -review">
-              <ProductDetailReviewItem />
-              <ProductDetailReviewItem />
-            </div>
-          </TabPane>
-          <TabPane tab="Additional information" key="3">
-            <div className="product-detail-tab-item -info">
-              <table>
-                <tr>
-                  <td>Outer Shell</td>
-                  <td>100% polyester</td>
-                </tr>
-                <tr>
-                  <td>Lining</td>
-                  <td>100% polyurethane</td>
-                </tr>
-                <tr>
-                  <td>Size</td>
-                  <td>S, M, L, XL</td>
-                </tr>
-                <tr>
-                  <td>Colors</td>
-                  <td>Grey, Red, Blue, Black</td>
-                </tr>
-                <tr>
-                  <td>Care</td>
-                  <td>
-                    <img
-                      src={
-                        process.env.PUBLIC_URL +
-                        "/assets/images/shop/shop-detail/care-icons.png"
-                      }
-                      alt="Care icon"
-                    />
-                  </td>
-                </tr>
-              </table>
+              {detailProduct?.comment?.map((item, index) => {
+                return <ProductDetailReviewItem key={index} {...item} />;
+              })}
+              {infoToken?.email && <ProductDetailComment />}
             </div>
           </TabPane>
         </Tabs>

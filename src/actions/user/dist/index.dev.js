@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.clearOldDataCheckoutComplete = exports.clearOldDate = exports.cartCheckoutComplete = exports.checkOut = exports.deleteCart = exports.updateCart = exports.getCart = exports.addToCart = exports.updatePassword = exports.forgotPassword = exports.register = exports.login = void 0;
+exports.clearOldDataCheckoutComplete = exports.clearOldDate = exports.cartCheckoutComplete = exports.cancelInvoice = exports.rating = exports.checkOut = exports.deleteCart = exports.updateCart = exports.getCart = exports.addToCart = exports.updatePassword = exports.forgotPassword = exports.register = exports.loginWithThirdParty = exports.login = void 0;
 
 var _user = require("../../constants/actions/user");
 
@@ -39,7 +39,7 @@ var login = function login() {
 
 exports.login = login;
 
-var register = function register() {
+var loginWithThirdParty = function loginWithThirdParty() {
   var _ref2 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
       _ref2$params = _ref2.params,
       params = _ref2$params === void 0 ? {} : _ref2$params,
@@ -47,6 +47,30 @@ var register = function register() {
       data = _ref2$data === void 0 ? {} : _ref2$data,
       cbSuccess = _ref2.cbSuccess,
       cbError = _ref2.cbError;
+
+  return (0, _request["default"])({
+    url: _constants["default"].ENDPOINTS.LOGIN_WITH_THIRD_PARTY,
+    method: "POST",
+    cbSuccess: cbSuccess,
+    cbError: cbError,
+    params: params,
+    payload: data,
+    LOADING_ACTION: _user.TYPES.LOGIN_WITH_THIRD_PARTY_LOADING,
+    SUCCESS_ACTION: _user.TYPES.LOGIN_WITH_THIRD_PARTY_SUCCESS,
+    ERROR_ACTION: _user.TYPES.LOGIN_WITH_THIRD_PARTY_ERROR
+  });
+};
+
+exports.loginWithThirdParty = loginWithThirdParty;
+
+var register = function register() {
+  var _ref3 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+      _ref3$params = _ref3.params,
+      params = _ref3$params === void 0 ? {} : _ref3$params,
+      _ref3$data = _ref3.data,
+      data = _ref3$data === void 0 ? {} : _ref3$data,
+      cbSuccess = _ref3.cbSuccess,
+      cbError = _ref3.cbError;
 
   return (0, _request["default"])({
     url: _constants["default"].ENDPOINTS.REGISTER,
@@ -64,13 +88,13 @@ var register = function register() {
 exports.register = register;
 
 var forgotPassword = function forgotPassword() {
-  var _ref3 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-      _ref3$params = _ref3.params,
-      params = _ref3$params === void 0 ? {} : _ref3$params,
-      _ref3$data = _ref3.data,
-      data = _ref3$data === void 0 ? {} : _ref3$data,
-      cbSuccess = _ref3.cbSuccess,
-      cbError = _ref3.cbError;
+  var _ref4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+      _ref4$params = _ref4.params,
+      params = _ref4$params === void 0 ? {} : _ref4$params,
+      _ref4$data = _ref4.data,
+      data = _ref4$data === void 0 ? {} : _ref4$data,
+      cbSuccess = _ref4.cbSuccess,
+      cbError = _ref4.cbError;
 
   return (0, _request["default"])({
     url: _constants["default"].ENDPOINTS.FORGOT_PASSWORD,
@@ -88,13 +112,13 @@ var forgotPassword = function forgotPassword() {
 exports.forgotPassword = forgotPassword;
 
 var updatePassword = function updatePassword() {
-  var _ref4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-      _ref4$params = _ref4.params,
-      params = _ref4$params === void 0 ? {} : _ref4$params,
-      _ref4$data = _ref4.data,
-      data = _ref4$data === void 0 ? {} : _ref4$data,
-      cbSuccess = _ref4.cbSuccess,
-      cbError = _ref4.cbError;
+  var _ref5 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+      _ref5$params = _ref5.params,
+      params = _ref5$params === void 0 ? {} : _ref5$params,
+      _ref5$data = _ref5.data,
+      data = _ref5$data === void 0 ? {} : _ref5$data,
+      cbSuccess = _ref5.cbSuccess,
+      cbError = _ref5.cbError;
 
   return (0, _request["default"])({
     url: _constants["default"].ENDPOINTS.UPDATE_PASSWORD,
@@ -112,13 +136,13 @@ var updatePassword = function updatePassword() {
 exports.updatePassword = updatePassword;
 
 var addToCart = function addToCart() {
-  var _ref5 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-      _ref5$params = _ref5.params,
-      params = _ref5$params === void 0 ? {} : _ref5$params,
-      _ref5$data = _ref5.data,
-      data = _ref5$data === void 0 ? {} : _ref5$data,
-      cbSuccess = _ref5.cbSuccess,
-      cbError = _ref5.cbError;
+  var _ref6 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+      _ref6$params = _ref6.params,
+      params = _ref6$params === void 0 ? {} : _ref6$params,
+      _ref6$data = _ref6.data,
+      data = _ref6$data === void 0 ? {} : _ref6$data,
+      cbSuccess = _ref6.cbSuccess,
+      cbError = _ref6.cbError;
 
   return (0, _request["default"])({
     url: _constants["default"].ENDPOINTS.CART,
@@ -136,13 +160,13 @@ var addToCart = function addToCart() {
 exports.addToCart = addToCart;
 
 var getCart = function getCart() {
-  var _ref6 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-      _ref6$params = _ref6.params,
-      params = _ref6$params === void 0 ? {} : _ref6$params,
-      _ref6$data = _ref6.data,
-      data = _ref6$data === void 0 ? {} : _ref6$data,
-      cbSuccess = _ref6.cbSuccess,
-      cbError = _ref6.cbError;
+  var _ref7 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+      _ref7$params = _ref7.params,
+      params = _ref7$params === void 0 ? {} : _ref7$params,
+      _ref7$data = _ref7.data,
+      data = _ref7$data === void 0 ? {} : _ref7$data,
+      cbSuccess = _ref7.cbSuccess,
+      cbError = _ref7.cbError;
 
   return (0, _request["default"])({
     url: "".concat(_constants["default"].ENDPOINTS.CART),
@@ -160,13 +184,13 @@ var getCart = function getCart() {
 exports.getCart = getCart;
 
 var updateCart = function updateCart() {
-  var _ref7 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-      _ref7$params = _ref7.params,
-      params = _ref7$params === void 0 ? {} : _ref7$params,
-      _ref7$data = _ref7.data,
-      data = _ref7$data === void 0 ? {} : _ref7$data,
-      cbSuccess = _ref7.cbSuccess,
-      cbError = _ref7.cbError;
+  var _ref8 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+      _ref8$params = _ref8.params,
+      params = _ref8$params === void 0 ? {} : _ref8$params,
+      _ref8$data = _ref8.data,
+      data = _ref8$data === void 0 ? {} : _ref8$data,
+      cbSuccess = _ref8.cbSuccess,
+      cbError = _ref8.cbError;
 
   return (0, _request["default"])({
     url: "".concat(_constants["default"].ENDPOINTS.CART),
@@ -184,13 +208,13 @@ var updateCart = function updateCart() {
 exports.updateCart = updateCart;
 
 var deleteCart = function deleteCart() {
-  var _ref8 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-      _ref8$params = _ref8.params,
-      params = _ref8$params === void 0 ? {} : _ref8$params,
-      _ref8$data = _ref8.data,
-      data = _ref8$data === void 0 ? {} : _ref8$data,
-      cbSuccess = _ref8.cbSuccess,
-      cbError = _ref8.cbError;
+  var _ref9 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+      _ref9$params = _ref9.params,
+      params = _ref9$params === void 0 ? {} : _ref9$params,
+      _ref9$data = _ref9.data,
+      data = _ref9$data === void 0 ? {} : _ref9$data,
+      cbSuccess = _ref9.cbSuccess,
+      cbError = _ref9.cbError;
 
   return (0, _request["default"])({
     url: "".concat(_constants["default"].ENDPOINTS.CART),
@@ -208,13 +232,13 @@ var deleteCart = function deleteCart() {
 exports.deleteCart = deleteCart;
 
 var checkOut = function checkOut() {
-  var _ref9 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-      _ref9$params = _ref9.params,
-      params = _ref9$params === void 0 ? {} : _ref9$params,
-      _ref9$data = _ref9.data,
-      data = _ref9$data === void 0 ? {} : _ref9$data,
-      cbSuccess = _ref9.cbSuccess,
-      cbError = _ref9.cbError;
+  var _ref10 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+      _ref10$params = _ref10.params,
+      params = _ref10$params === void 0 ? {} : _ref10$params,
+      _ref10$data = _ref10.data,
+      data = _ref10$data === void 0 ? {} : _ref10$data,
+      cbSuccess = _ref10.cbSuccess,
+      cbError = _ref10.cbError;
 
   return (0, _request["default"])({
     url: "".concat(_constants["default"].ENDPOINTS.CHECKOUT),
@@ -230,6 +254,54 @@ var checkOut = function checkOut() {
 };
 
 exports.checkOut = checkOut;
+
+var rating = function rating() {
+  var _ref11 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+      _ref11$params = _ref11.params,
+      params = _ref11$params === void 0 ? {} : _ref11$params,
+      _ref11$data = _ref11.data,
+      data = _ref11$data === void 0 ? {} : _ref11$data,
+      cbSuccess = _ref11.cbSuccess,
+      cbError = _ref11.cbError;
+
+  return (0, _request["default"])({
+    url: "".concat(_constants["default"].ENDPOINTS.RATING),
+    method: "POST",
+    cbSuccess: cbSuccess,
+    cbError: cbError,
+    params: params,
+    payload: data,
+    LOADING_ACTION: _user.TYPES.RATING_LOADING,
+    SUCCESS_ACTION: _user.TYPES.RATING_SUCCESS,
+    ERROR_ACTION: _user.TYPES.RATING_ERROR
+  });
+};
+
+exports.rating = rating;
+
+var cancelInvoice = function cancelInvoice() {
+  var _ref12 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+      _ref12$params = _ref12.params,
+      params = _ref12$params === void 0 ? {} : _ref12$params,
+      _ref12$data = _ref12.data,
+      data = _ref12$data === void 0 ? {} : _ref12$data,
+      cbSuccess = _ref12.cbSuccess,
+      cbError = _ref12.cbError;
+
+  return (0, _request["default"])({
+    url: "".concat(_constants["default"].ENDPOINTS.CANCEL_INVOICE),
+    method: "POST",
+    cbSuccess: cbSuccess,
+    cbError: cbError,
+    params: params,
+    payload: data,
+    LOADING_ACTION: _user.TYPES.CANCEL_INVOICE_LOADING,
+    SUCCESS_ACTION: _user.TYPES.CANCEL_INVOICE_SUCCESS,
+    ERROR_ACTION: _user.TYPES.CANCEL_INVOICE_ERROR
+  });
+};
+
+exports.cancelInvoice = cancelInvoice;
 
 var cartCheckoutComplete = function cartCheckoutComplete(data) {
   return function (dispatch) {

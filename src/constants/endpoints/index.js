@@ -5,6 +5,7 @@ export default {
   CART: "/api/client/user/cart",
   REGISTER: "/api/client/user/register",
   LOGIN: "/api/client/user/login",
+  LOGIN_WITH_THIRD_PARTY: "/api/client/user/register-with-third-party",
   FORGOT_PASSWORD: "/api/client/user/forgot-password",
   UPDATE_PASSWORD: "/api/client/user/update-password",
   CHECKOUT: "/api/client/user/checkout",
@@ -12,4 +13,6 @@ export default {
   INFORMATION: "/api/client/user/information",
   CHANGE_PASSWORD: "/api/client/user/change-password",
   GET_DETAIL_ORDERS: "/api/client/user/detail-order",
+  RATING: "/api/client/user/rating",
+  CANCEL_INVOICE: '/api/client/user/cancel-invoice'
 };

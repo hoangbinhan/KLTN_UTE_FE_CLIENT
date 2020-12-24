@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
+import { Button, Popconfirm, message } from "antd";
 import { useRouter } from "next/router";
 import LayoutOne from "../../components/layouts/LayoutOne";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,8 +8,10 @@ import { getDetailOrder } from "../../actions/information";
 import { UserContext } from "../../context/UserContext";
 import Container from "../../components/other/Container";
 import { formatVND } from "../../utils";
+import { cancelInvoice } from "../../actions/user";
 
 const detailOrder = () => {
+  const [loadingCancel, setloadingCancel] = useState(false);
   const infoToken = useContext(UserContext);
   const router = useRouter();
   const dispatch = useDispatch();
@@ -16,7 +19,26 @@ const detailOrder = () => {
   const { detail } = useSelector((state) => state.information.getDetailOrder);
   useEffect(() => {
     dispatch(getDetailOrder({ params: { id: slug } }));
-  }, [dispatch, slug]);
+  }, [dispatch, slug, loadingCancel]);
+
+  const onConfirmCancel = () => {
+    if (slug) {
+      setloadingCancel(true);
+      dispatch(
+        cancelInvoice({
+          data: { id: slug },
+          cbSuccess: () => {
+            setloadingCancel(false);
+            message.success("Cancel Success");
+          },
+          cbError: () => {
+            setloadingCancel(false);
+            message.error("Some thing went wrong!");
+          },
+        })
+      );
+    }
+  };
   return (
     <LayoutOne title="Checkout completed">
       <Container>
@@ -52,12 +74,12 @@ const detailOrder = () => {
               </thead>
               <tbody>
                 {detail?.data?.productsInvoice?.map((record) => (
-                  <tr key={record.item._id}>
+                  <tr key={record._id}>
                     <td>
-                      {record.item.productName} x {record.quantity}
+                      {record.productName} x {record.quantity}
                     </td>
                     <td className="bold">
-                      {formatVND(record.item.price * record.quantity, "VND")}
+                      {formatVND(record.price * record.quantity, "VND")}
                     </td>
                   </tr>
                 ))}
@@ -85,6 +107,17 @@ const detailOrder = () => {
             </table>
           </div>
         </div>
+        {detail?.data?.status == "PENDING" && (
+          <Popconfirm
+            placement="topLeft"
+            title="Do you want to cancel invoice?"
+            onConfirm={onConfirmCancel}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button loading={loadingCancel}>Cancel</Button>
+          </Popconfirm>
+        )}
       </Container>
     </LayoutOne>
   );

@@ -19,9 +19,9 @@ function ProductDetailContentOne({
     <div className="product-detail-content-one">
       <h3>{data.productName}</h3>
       <div className="product-detail-content-one-rate">
-        <Rate disabled defaultValue={5} />
+        <Rate disabled defaultValue={data?.rating || 5} />
         <span className="product-detail-content-one-review-count">
-          - 5 Reviews
+          - {data?.comment.length} Reviews
         </span>
       </div>
       <div className="product-detail-content-one-price">

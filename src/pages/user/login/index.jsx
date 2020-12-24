@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import LayoutOne from "../../../components/layouts/LayoutOne";
-import { Form, Input, Button, Checkbox, message } from "antd";
+import { Form, Input, Button, message } from "antd";
 import { GoogleLogin } from "react-google-login";
-import FacebookLogin from "react-facebook-login";
-import Axios from "axios";
 import { useRouter } from "next/router";
 import { baseUrl } from "../../../configs/enviroments";
 import Cookie from "js-cookie";
 import { useDispatch } from "react-redux";
-import { login } from "../../../actions/user";
+import { login, loginWithThirdParty } from "../../../actions/user";
 import Link from "next/link";
 
 const layout = {
@@ -48,11 +46,24 @@ const loginPage = () => {
   };
 
   const responseGoogle = (response) => {
-    console.log(response);
-  };
-
-  const responseFacebook = (response) => {
-    console.log(response);
+    if (response) {
+      const { email, name } = response.profileObj;
+      dispatch(
+        loginWithThirdParty({
+          data: { email, name },
+          cbSuccess: (res) => {
+            setIsLoading(false);
+            const { token } = res.payload.data.token;
+            Cookie.set("token", token);
+            router.push("/");
+          },
+          cbError: (err) => {
+            message.error(err.message);
+            setIsLoading(false);
+          },
+        })
+      );
+    }
   };
 
   return (
@@ -97,18 +108,12 @@ const loginPage = () => {
         </Form.Item>
         <Form.Item {...tailLayout}>
           <GoogleLogin
-            clientId="162663854679-5dqrk7lvcl6dlh81v1iqou9nvu53b761.apps.googleusercontent.com"
+            clientId="162663854679-1gbpb79o1gpqisdb6476scokcoqbabj0.apps.googleusercontent.com"
             buttonText="Login with google"
             onSuccess={responseGoogle}
             onFailure={responseGoogle}
             cookiePolicy={"single_host_origin"}
           />
-          {/* <FacebookLogin
-            appId="1088597931155576"
-            autoLoad={true}
-            fields="name,email,picture"
-            callback={responseFacebook}
-          /> */}
         </Form.Item>
       </Form>
     </LayoutOne>
