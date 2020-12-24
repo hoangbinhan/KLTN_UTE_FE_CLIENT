@@ -8,7 +8,7 @@ export default function checkoutComplete() {
   return (
     <LayoutOne title="Checkout completed">
       <Container>
-        {errorCode == 0 ? (
+        {errorCode == 0 || errorCode == -2 ? (
           <div className="checkout-complete">
             <div className="checkout-complete-summary">
               <h3>Congratulation! You’ve completed payment.</h3>

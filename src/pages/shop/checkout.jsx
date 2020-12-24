@@ -27,13 +27,11 @@ const { Option } = Select;
 const paymentData = [
   {
     name: "COD Payment",
-    content:
-      "With so many different ways today to find information online, it can sometimes be hard to know where to go to first.",
+    content: "Checkout with COD payment.",
   },
   {
     name: "Momo Payment",
-    content:
-      "With so many different ways today to find information online, it can sometimes be hard to know where to go to first.",
+    content: "Checkout with Momo payment.",
   },
 ];
 
