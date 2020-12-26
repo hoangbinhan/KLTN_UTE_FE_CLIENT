@@ -45,9 +45,9 @@ const loginPage = () => {
     console.log("Failed:", errorInfo);
   };
 
-  const responseGoogle = (response) => {
+  const responseGoogle = async (response) => {
     if (response) {
-      const { email, name } = response.profileObj;
+      const { email, name } = await response.profileObj;
       dispatch(
         loginWithThirdParty({
           data: { email, name },
