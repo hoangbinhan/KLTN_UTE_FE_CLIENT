@@ -100,7 +100,9 @@ function MenuComponent({ containerType }) {
             </a>
             <div className="menu-logo">
               <Link href="/">
-                <a style={{ color: "white", fontSize: "2rem" }}>DA STORE</a>
+                <a style={{ color: "white", fontSize: "2rem" }}>
+                  <img src="logowhite.png" alt="" style={{ height: 45 }} />
+                </a>
               </Link>
             </div>
             <SearchBar placeholder="What are you looking for ?" />
