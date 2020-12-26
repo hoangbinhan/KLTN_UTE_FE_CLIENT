@@ -47,6 +47,7 @@ const loginPage = () => {
 
   const responseGoogle = async (response) => {
     if (response) {
+      console.log(response);
       const { email, name } = await response.profileObj;
       dispatch(
         loginWithThirdParty({
