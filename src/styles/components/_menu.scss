@@ -154,7 +154,7 @@
         background-color: darken(#fff, 10%);
       }
       @include mq(lg) {
-        display: none;
+        // display: none;
       }
     }
     .menu-function-item {

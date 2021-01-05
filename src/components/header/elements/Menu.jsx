@@ -117,7 +117,7 @@ function MenuComponent({ containerType }) {
               ) : (
                 <Button>
                   <Link href="/user/login">
-                    <a>Join now</a>
+                    <a>LOGIN</a>
                   </Link>
                 </Button>
               )}
