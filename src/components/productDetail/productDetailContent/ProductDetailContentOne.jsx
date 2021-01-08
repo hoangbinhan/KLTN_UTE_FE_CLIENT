@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Rate, Button } from "antd";
 import Parser from "html-react-parser";
-import { useDispatch } from "react-redux";
 import classNames from "classnames";
 import QuantitySelector from "../../controls/QuantitySelector";
 import { formatVND } from "../../../utils";
