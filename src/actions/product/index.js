@@ -20,3 +20,8 @@ export const fetchDetailProduct = ({
     ERROR_ACTION: TYPES.FETCH_DETAIL_PRODUCT_ERROR,
   });
 };
+
+export const clearOldDetailProduct = () => (dispatch) =>
+  dispatch({
+    type: TYPES.CLEAR_DATA_DETAIL_PRODUCT,
+  });

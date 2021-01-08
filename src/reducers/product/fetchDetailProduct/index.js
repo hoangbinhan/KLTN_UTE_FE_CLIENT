@@ -9,6 +9,13 @@ const initialState = {
 
 export default function (state = initialState, { type, payload }) {
   switch (type) {
+    case TYPES.CLEAR_DATA_DETAIL_PRODUCT:
+      return {
+        detailProduct: {},
+        isLoading: true,
+        isError: false,
+        error: {},
+      };
     case TYPES.FETCH_DETAIL_PRODUCT_LOADING:
       return {
         ...state,
