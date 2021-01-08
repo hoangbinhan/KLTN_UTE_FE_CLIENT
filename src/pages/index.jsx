@@ -1,16 +1,45 @@
 //libs
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import axios from "axios";
+import { message } from "antd";
 //components
 import Banners from "../components/shop/Banners";
 import LayoutOne from "../components/layouts/LayoutOne";
 import ShopLayout from "../components/shop/ShopLayout";
+import { UserContext } from "../context/UserContext";
 //actions
+import { addToCart } from "../actions/user";
 
 export default function Home({ categories }) {
+  const infoToken = useContext(UserContext);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const pendingCart = JSON.parse(localStorage.getItem("pendingCart"));
+    if (pendingCart) {
+      if (infoToken?.email) {
+        const payload = {
+          ...pendingCart,
+          email: infoToken?.email,
+        };
+        dispatch(
+          addToCart({
+            data: payload,
+            cbSuccess: () => {
+              localStorage.removeItem("pendingCart");
+              message.success("Product added to cart successfully");
+            },
+            cbError: () => {
+              localStorage.removeItem("pendingCart");
+              message.error("Product added to cart fail");
+            },
+          })
+        );
+      }
+    }
+  }, [dispatch]);
   return (
-    <LayoutOne title="Homepage 1">
+    <LayoutOne title="Homepage">
       <Banners />
       <ShopLayout
         fiveColumn

@@ -52,6 +52,8 @@ export default function checkout() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getInformation());
+  }, [dispatch]);
+  useEffect(() => {
     if (JSON.stringify(information) !== "{}") {
       const values = {
         ...information?.data,
@@ -62,7 +64,7 @@ export default function checkout() {
       values.phone = values.phoneNumber;
       form.setFieldsValue(values);
     }
-  }, [dispatch]);
+  }, [information]);
 
   const settings = {
     arrows: false,

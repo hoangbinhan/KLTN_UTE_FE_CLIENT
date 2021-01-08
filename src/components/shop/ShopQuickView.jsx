@@ -46,6 +46,11 @@ function ShopQuickView({ data, setModalVisible }) {
   const [nav2, setNav2] = useState();
   const onAddedToCart = (data, quantity) => {
     if (infoToken?.email) {
+      const payload = {
+        email: infoToken?.email,
+        product: data._id,
+        quantity: quantity,
+      };
       dispatch(
         addToCart({
           data: { email: infoToken?.email, product: data._id, quantity },
@@ -59,7 +64,14 @@ function ShopQuickView({ data, setModalVisible }) {
         })
       );
     } else {
-      router.push("/user/login");
+      const payload = {
+        product: data._id,
+        quantity: quantity,
+      };
+      localStorage.setItem("pendingCart", JSON.stringify(payload));
+      router.push({
+        pathname: "/user/login",
+      });
     }
   };
   return (

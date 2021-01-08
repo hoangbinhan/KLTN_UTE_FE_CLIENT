@@ -15,7 +15,6 @@ function Product({ product, productStyle }) {
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
-
   const renderProductType = () => {
     if (product.quantity <= 0) {
       return <p className="product-type -new">Sold out</p>;
@@ -41,7 +40,14 @@ function Product({ product, productStyle }) {
         })
       );
     } else {
-      router.push("/user/login");
+      const payload = {
+        product: data._id,
+        quantity: 1,
+      };
+      localStorage.setItem("pendingCart", JSON.stringify(payload));
+      router.push({
+        pathname: "/user/login",
+      });
     }
   };
   const showModal = () => {
