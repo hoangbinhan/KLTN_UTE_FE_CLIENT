@@ -47,6 +47,7 @@ function SearchBarMobile({ placeholder }) {
       router.push("/");
     } else {
       let currentParam = { ...router.query };
+      delete currentParam.slug;
       router.push({
         pathname: "/",
         query: { text: search, ...currentParam },
