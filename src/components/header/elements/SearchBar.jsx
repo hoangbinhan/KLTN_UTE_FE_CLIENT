@@ -2,11 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Select, Button, AutoComplete } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-import {
-  setGlobalCategory,
-  setGlobalSearch,
-} from "../../../redux/actions/globalActions";
-import { setSubCategory } from "../../../redux/actions/shopActions";
 import useDebounce from "../../../common/useDebound";
 import queryString from "querystring";
 import { searchDataProduct } from "../../../actions/home";
@@ -44,8 +39,6 @@ function SearchBarMobile({ placeholder }) {
   };
   const onSelectOption = (value, option) => {
     router.push(`/product/${option.id}`);
-    console.log("value", value);
-    console.log("option", option);
     setSearch(value);
     closeDropdownOption();
   };
@@ -53,9 +46,10 @@ function SearchBarMobile({ placeholder }) {
     if (!search || search === "") {
       router.push("/");
     } else {
+      let currentParam = { ...router.query };
       router.push({
         pathname: "/",
-        query: { q: search },
+        query: { text: search, ...currentParam },
       });
     }
   };
@@ -76,6 +70,12 @@ function SearchBarMobile({ placeholder }) {
               option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !==
               -1
             }
+            onKeyUp={(e) => {
+              if (e.keyCode === 13) {
+                e.preventDefault();
+                onSearch();
+              }
+            }}
           />
           <Button onClick={onSearch}>
             <i className="icon_search" />
