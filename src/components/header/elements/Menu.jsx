@@ -101,7 +101,7 @@ function MenuComponent({ containerType }) {
             <div className="menu-logo">
               <Link href="/">
                 <a style={{ color: "white", fontSize: "2rem" }}>
-                  <img src="logowhite.png" alt="" style={{ height: 45 }} />
+                  <img src="/logowhite.png" alt="" style={{ height: 45 }} />
                 </a>
               </Link>
             </div>
