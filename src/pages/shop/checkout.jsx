@@ -9,7 +9,7 @@ import {
   Collapse,
   message,
 } from "antd";
-import { useState, useCallback, useContext } from "react";
+import { useState, useCallback, useContext, useEffect } from "react";
 import Slider from "react-slick";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,6 +21,7 @@ const tree = require("../../addressVN/tree.json");
 import { formatVND } from "../../utils";
 import { UserContext } from "../../context/UserContext";
 import { checkOut, cartCheckoutComplete } from "../../actions/user";
+import { getInformation } from "../../actions/information";
 
 const { Option } = Select;
 
@@ -39,6 +40,9 @@ export default function checkout() {
   const { Panel } = Collapse;
   const router = useRouter();
   const { cart } = useSelector((state) => state.user.getCart);
+  const { information } = useSelector(
+    (state) => state.information.getInformation
+  );
   const [paymentMethod, setPaymentMethod] = useState("COD Payment");
   const [district, setDistrict] = useState([]);
   const [isLoading, setisLoading] = useState(false);
@@ -46,6 +50,19 @@ export default function checkout() {
   const [form] = Form.useForm();
   const infoToken = useContext(UserContext);
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getInformation());
+    if (JSON.stringify(information) !== "{}") {
+      const values = {
+        ...information?.data,
+      };
+      const arrName = values.name.split(" ");
+      values.lastName = arrName.pop();
+      values.firstName = arrName.join(" ");
+      values.phone = values.phoneNumber;
+      form.setFieldsValue(values);
+    }
+  }, [dispatch]);
 
   const settings = {
     arrows: false,
