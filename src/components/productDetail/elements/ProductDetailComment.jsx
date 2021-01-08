@@ -32,7 +32,12 @@ const ProductDetailComment = () => {
               form.resetFields();
               setSubmitting(false);
             },
-            cbError: () => setSubmitting(false),
+            cbError: () => {
+              message.error(
+                "You cannot review because you are not buying this product!"
+              );
+              setSubmitting(false);
+            },
           })
         );
       }

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Button, Popconfirm, message } from "antd";
+import { Button, Modal, message, Form, Input } from "antd";
 import { useRouter } from "next/router";
 import LayoutOne from "../../components/layouts/LayoutOne";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,35 +10,92 @@ import Container from "../../components/other/Container";
 import { formatVND } from "../../utils";
 import { cancelInvoice } from "../../actions/user";
 
+const { TextArea } = Input;
+
+const CollectionCreateForm = ({ isModalVisible, onCreate, onCancel }) => {
+  const [form] = Form.useForm();
+  return (
+    <Modal
+      visible={isModalVisible}
+      title="Please tell us your reason!"
+      okText="Submit"
+      cancelText="Cancel"
+      onCancel={onCancel}
+      onOk={() => {
+        form
+          .validateFields()
+          .then((values) => {
+            form.resetFields();
+            onCreate(values);
+          })
+          .catch((info) => {
+            console.log("Validate Failed:", info);
+          });
+      }}
+    >
+      <Form
+        form={form}
+        layout="vertical"
+        name="form_in_modal"
+        initialValues={{ modifier: "public" }}
+      >
+        <Form.Item
+          name="reason"
+          label="Reason"
+          rules={[
+            {
+              required: true,
+              message: "Please input the Reason",
+            },
+          ]}
+        >
+          <TextArea rows={4} />
+        </Form.Item>
+      </Form>
+    </Modal>
+  );
+};
+
 const detailOrder = () => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [loadingCancel, setloadingCancel] = useState(false);
   const infoToken = useContext(UserContext);
   const router = useRouter();
   const dispatch = useDispatch();
   const { slug } = router.query;
   const { detail } = useSelector((state) => state.information.getDetailOrder);
-  useEffect(() => {
-    dispatch(getDetailOrder({ params: { id: slug } }));
-  }, [dispatch, slug, loadingCancel]);
 
-  const onConfirmCancel = () => {
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+  const onConfirmCancel = (values) => {
     if (slug) {
       setloadingCancel(true);
       dispatch(
         cancelInvoice({
-          data: { id: slug },
+          data: { ...values, id: slug },
           cbSuccess: () => {
             setloadingCancel(false);
             message.success("Cancel Success");
+            setIsModalVisible(false);
           },
           cbError: () => {
             setloadingCancel(false);
             message.error("Some thing went wrong!");
+            setIsModalVisible(false);
           },
         })
       );
     }
   };
+
+  useEffect(() => {
+    dispatch(getDetailOrder({ params: { id: slug } }));
+  }, [dispatch, slug, loadingCancel]);
+
   return (
     <LayoutOne title="Checkout completed">
       <Container>
@@ -108,15 +165,18 @@ const detailOrder = () => {
           </div>
         </div>
         {detail?.data?.status == "PENDING" && (
-          <Popconfirm
-            placement="topLeft"
-            title="Do you want to cancel invoice?"
-            onConfirm={onConfirmCancel}
-            okText="Yes"
-            cancelText="No"
-          >
-            <Button loading={loadingCancel}>Cancel</Button>
-          </Popconfirm>
+          <>
+            <CollectionCreateForm
+              isModalVisible={isModalVisible}
+              onCreate={onConfirmCancel}
+              onCancel={() => {
+                handleCancel;
+              }}
+            />
+            <Button loading={loadingCancel} onClick={showModal}>
+              Cancel Order
+            </Button>
+          </>
         )}
       </Container>
     </LayoutOne>

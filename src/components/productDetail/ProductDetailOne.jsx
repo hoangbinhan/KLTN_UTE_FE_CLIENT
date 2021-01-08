@@ -30,7 +30,14 @@ function ProductDetailLayoutOne({ data }) {
         })
       );
     } else {
-      router.push("/user/login");
+      const payload = {
+        product: data._id,
+        quantity: quantity,
+      };
+      localStorage.setItem("pendingCart", JSON.stringify(payload));
+      router.push({
+        pathname: "/user/login",
+      });
     }
   };
   return (

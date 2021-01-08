@@ -31,11 +31,10 @@ function TopNav({ containerType }) {
               onChange={onSelectLanguage}
             >
               <Option value="en">English</Option>
-              {/* <Option value="jp">Japanese</Option> */}
               <Option value="vi">Vietnamese</Option>
             </Select>
             <Select
-              defaultValue={"VND"}
+              defaultValue={"USD"}
               style={{ width: 120 }}
               bordered={false}
               onChange={onSelectCurrency}
