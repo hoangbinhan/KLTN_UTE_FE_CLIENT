@@ -22,6 +22,7 @@ import { formatVND } from "../../utils";
 import { UserContext } from "../../context/UserContext";
 import { checkOut, cartCheckoutComplete } from "../../actions/user";
 import { getInformation } from "../../actions/information";
+import { getLocationShippingAddress } from "../../utils";
 
 const { Option } = Select;
 
@@ -44,9 +45,11 @@ export default function checkout() {
     (state) => state.information.getInformation
   );
   const [paymentMethod, setPaymentMethod] = useState("COD Payment");
+  const [shippingCost, setShippingCost] = useState();
   const [district, setDistrict] = useState([]);
-  const [isLoading, setisLoading] = useState(false);
   const [ward, setWard] = useState([]);
+  const [addressShipping, setAddressShipping] = useState("");
+  const [isLoading, setisLoading] = useState(false);
   const [form] = Form.useForm();
   const infoToken = useContext(UserContext);
   const dispatch = useDispatch();
@@ -167,15 +170,21 @@ export default function checkout() {
     await setWard([]);
     await form.setFieldsValue({ district: undefined, ward: undefined });
     await setDistrict(tree[key.key][`quan-huyen`]);
+    setAddressShipping(value);
   };
 
   const handleDistrictOnChange = async (value, key) => {
     await setWard([]);
     await form.setFieldsValue({ ward: undefined });
     await setWard(district[key.key][`xa-phuong`]);
+    setAddressShipping(`${addressShipping}, ${value}`);
   };
 
-  const handleWardOnChange = async (value, key) => {};
+  const handleWardOnChange = async (value, key) => {
+    const location = `${addressShipping}`;
+    const shippingCost = await getLocationShippingAddress(location);
+    console.log("shippingCost", shippingCost);
+  };
   return (
     <LayoutOne title="Checkout">
       <div className="checkout">
@@ -372,7 +381,6 @@ export default function checkout() {
                         <tr>
                           <td>
                             <h5>Shiping</h5>
-                            <p>Shiping to United State</p>
                           </td>
                           <td>Free</td>
                         </tr>
