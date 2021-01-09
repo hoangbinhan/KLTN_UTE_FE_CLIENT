@@ -23,6 +23,7 @@ import { UserContext } from "../../context/UserContext";
 import { checkOut, cartCheckoutComplete } from "../../actions/user";
 import { getInformation } from "../../actions/information";
 import { getLocationShippingAddress } from "../../utils";
+import {fetchShippingFee} from '../../actions/checkout'
 
 const { Option } = Select;
 
@@ -44,8 +45,10 @@ export default function checkout() {
   const { information } = useSelector(
     (state) => state.information.getInformation
   );
+  const {cost} = useSelector(
+    (state)=>state.checkout.fetchShippingFee
+  )
   const [paymentMethod, setPaymentMethod] = useState("COD Payment");
-  const [shippingCost, setShippingCost] = useState();
   const [district, setDistrict] = useState([]);
   const [ward, setWard] = useState([]);
   const [addressShipping, setAddressShipping] = useState("");
@@ -126,8 +129,8 @@ export default function checkout() {
         note: values.note,
         unitOrder: cart.totalItem,
         subTotal: cart.totalPrice,
-        shippingFee: "FREE",
-        total: cart.totalPrice,
+        shippingFee: parseFloat(cost) ? parseFloat(cost) : cost,
+        total: parseFloat(cost) ?  cart.totalPrice + parseFloat(cost) : cart.totalPrice
       };
       setisLoading(true);
       dispatch(
@@ -182,9 +185,11 @@ export default function checkout() {
 
   const handleWardOnChange = async (value, key) => {
     const location = `${addressShipping}`;
-    const shippingCost = await getLocationShippingAddress(location);
-    console.log("shippingCost", shippingCost);
+    dispatch(fetchShippingFee(location))
+    // const shippingCost = await getLocationShippingAddress(location);
+    // console.log("shippingCost", shippingCost);
   };
+
   return (
     <LayoutOne title="Checkout">
       <div className="checkout">
@@ -378,19 +383,19 @@ export default function checkout() {
                     <div className="divider" />
                     <table className="checkout-total__table-shiping">
                       <tbody>
-                        <tr>
+                        {cost && <tr>
                           <td>
                             <h5>Shiping</h5>
                           </td>
-                          <td>Free</td>
-                        </tr>
+                          <td>{parseFloat(cost) ? formatVND(cost,'VND') : cost}</td>
+                        </tr>}
                       </tbody>
                     </table>
                     <table className="checkout-total__table-total">
                       <tbody>
                         <tr>
                           <td>Total</td>
-                          <td>{formatVND(cart?.totalPrice, "VND")}</td>
+                          <td>{parseFloat(cost) ? formatVND(cart?.totalPrice + parseFloat(cost), "VND") : formatVND(cart?.totalPrice, "VND")}</td>
                         </tr>
                       </tbody>
                     </table>
